@@ -1,7 +1,36 @@
 <script setup>
 import {ref} from 'vue'
-const userEmail = ref('')
-const userPassword = ref('')
+//登录用的变量
+const EmailLog = ref('')
+const PasswordLog = ref('')
+//注册用的变量
+const EmailReg = ref('')
+const PasswordReg = ref('')
+const PasswordReg_ = ref('')
+
+function login() {
+    if(EmailLog.value === '' || PasswordLog.value === '') {
+        alert('请输入您的账号和密码') 
+        //这里大概就是提示下要输入 alert比较丑 但是我也不知道用啥 建议调一下
+    }
+    else {
+        console.log('登录成功')
+        // log() 待写的log()函数 需要等后端有的接
+    }
+}
+
+function register() {
+    if(EmailReg.value === '' || PasswordReg.value === '' || PasswordReg_.value === '') {
+        alert('请输入您的账号和密码')   //这些 alert都用elmUI 优化下 但是我不会
+    }
+    else if(PasswordReg.value !== PasswordReg_.value) {
+        alert('两次输入的密码不一致')
+    }
+    else {
+        console.log('注册成功')
+        // reg() 待写的reg()函数 需要等后端有的接
+    }
+}
 </script>
 
 <template>
@@ -15,8 +44,8 @@ const userPassword = ref('')
         </div>
         <div class="loginPage">
             <el-text style="font-size: 3vw;">登录 Login</el-text>
-            <el-input v-model="userEmail" style="width: 16vw" placeholder="请输入您的账号（邮箱）" clearable/><br>
-            <el-input v-model="userPassword" style="width: 16vw" type="password" placeholder="请输入您的密码" show-password clearable/>
+            <el-input  v-model="EmailLog" style="width: 16vw" placeholder="请输入您的账号（邮箱）" clearable/><br>
+            <el-input  v-model="PasswordLog" style="width: 16vw" type="password" placeholder="请输入您的密码" show-password clearable/>
             <div><br>
                 <el-button type="success" round class="finishButton">登录</el-button>
                 没有账号？去<button class="registerButton">注册</button>
@@ -25,9 +54,9 @@ const userPassword = ref('')
 
         <div class="registerPage">
         <el-text style="font-size: 3vw;">注册 Register</el-text>
-        <el-input v-model="input" style="width: 16vw" placeholder="请输入您的邮箱" clearable/><br>
-        <el-input v-model="input" style="width: 16vw" type="password" placeholder="请输入您的密码" show-password clearable/><br>
-        <el-input v-model="input" style="width: 16vw" type="password" placeholder="请确认您的密码（确保两次输入密码一致）" show-password clearable/> 
+        <el-input v-model="EmailReg" style="width: 16vw" placeholder="请输入您的邮箱" clearable/><br>
+        <el-input v-model="PasswordReg" style="width: 16vw" type="password" placeholder="请输入您的密码" show-password clearable/><br>
+        <el-input v-model="PasswordReg_" style="width: 16vw" type="password" placeholder="请确认您的密码（确保两次输入密码一致）" show-password clearable/> 
         <div><br>
             <el-button type="warning" round class="finishButton">注册</el-button>
             已有账号？去<button class="loginButton">登录</button></div>
