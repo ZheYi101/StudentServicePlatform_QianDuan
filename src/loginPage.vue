@@ -52,6 +52,9 @@ function register() {
 
 <template>
 <div class="bigBody">
+    <div class="topText">
+        <h1 style="font-size: 20px;justify-content: center;display: flex;color: whitesmoke;">主创：黄星晓 王昌翔 付鹏汇 张紫涵</h1>
+    </div>
     <div class="loginRegisterMain">
         <div class="prePage" ref="preRef">
             <h1>Welcome To Join Us</h1>
@@ -64,9 +67,10 @@ function register() {
                 <h1>注册</h1>
             </div>
             <div class="inputForm">
-                <input v-model="input" placeholder="请输入您的邮箱" clearable/>
-                <input v-model="input" type="password" placeholder="请输入您的密码" show-password/>
-                <input v-model="input" type="password" placeholder="请再次确认您的密码" show-password/>
+                <input v-model="username" placeholder="请输入您的账号（学号）" clearable/>
+                <input v-model="name" placeholder="请输入您的姓名" clearable/>
+                <input v-model="input" type="password" placeholder="请输入您想设置的密码" show-password/>
+                <input v-model="input" type="password" placeholder="请确认您的密码" show-password/>
             </div>
             <div class="buttonForm">
                 <el-button type="warning">注册</el-button>
@@ -78,8 +82,8 @@ function register() {
                 <h1>登录</h1>
             </div>
             <div class="inputForm">
-                <input v-model="input" placeholder="请输入您的邮箱" clearable/>
-                <input v-model="input" type="password" placeholder="请输入您的密码" show-password/>
+                <input v-model="username" placeholder="请输入您的账号（学号）" clearable/>
+                <input v-model="password" type="password" placeholder="请输入您的密码" show-password/>
             </div>
             <div class="buttonForm">
                 <el-button type="success">登录</el-button>
@@ -90,11 +94,12 @@ function register() {
 </div>
 </template>
 
-<style scoped>
-body {
+<style >
+html,body {
     display: flex;
     height: 100vh;
     width: 100vw;
+    margin: 0;
     background: linear-gradient(to right,pink,skyblue);
     overflow-x: hidden;
 }
@@ -108,15 +113,18 @@ body {
 .bigBody {
     height: 100vh;
     width: 73vw;
+    margin: 0;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    background: linear-gradient(to right,pink,skyblue);
 } 
 
 .loginRegisterMain {
-    width: 1050px;
+    width: 100%;
+    max-width: 1050px;
     height: 600px;
     display: flex;
-    justify-content: center;
     position: relative;
     margin: auto;
     border-radius: 4vh;
@@ -133,6 +141,7 @@ body {
     border-radius: 4px;
     background-color: #edd4dc;
     box-shadow: 4px 4px 3px rgba(0,0,0,.1);
+    border-radius: 4vh;
     transition: 0.5s ease-in-out;
 }
 
@@ -160,6 +169,8 @@ body {
 }
 
 .loginForm,.registerForm {
+    display: flex;
+    flex-direction: column;
     flex: 1;
     height: 100%;
 }
@@ -180,6 +191,7 @@ body {
 .titleForm {
     height: 300px;
     line-height: 500px;
+    flex-grow: 1;
 }
 
 .titleForm h1 {
@@ -193,6 +205,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-grow: 1;
 }
 
 input {
@@ -207,6 +220,7 @@ input {
 .buttonForm {
     display: flex;
     justify-content: center;
+    flex-grow: 1;
 }
 
 .el-button {
