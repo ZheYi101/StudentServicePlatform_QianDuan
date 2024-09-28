@@ -8,6 +8,23 @@ const EmailReg = ref('')
 const PasswordReg = ref('')
 const PasswordReg_ = ref('')
 
+const preRef = ref('')
+const imgList = ref([
+  new URL('/fufffh.jpg', import.meta.url).href,
+  new URL('/pink_fufffh.jpg', import.meta.url).href
+])
+let flag = ref(true)
+const mySwitch = () => {
+    if(flag.value) {
+        preRef.value.style.background = '#c9e0ed'
+        preRef.value.style.transform = 'translateX(100%)'
+    }else {
+        preRef.value.style.background = '#edd4dc'
+        preRef.value.style.transform = 'translateX(0%)'
+    }
+    flag.value = !flag.value
+}
+
 function login() {
     if(EmailLog.value === '' || PasswordLog.value === '') {
         alert('请输入您的账号和密码') 
@@ -34,113 +51,187 @@ function register() {
 </script>
 
 <template>
-    
-    <div class="loginRegister">
-        <div class="prePage">
-            <h1 style="text-align: center;">Welcome To Join Us</h1>
-            <div class="imgFirst"><br><br>
-                <img src="\B35E51A41E567E63A82AAD8C53964277.png" class="loginRegisterImg">
+<div class="bigBody">
+    <div class="loginRegisterMain">
+        <div class="prePage" ref="preRef">
+            <h1>Welcome To Join Us</h1>
+            <div class="preImg">
+                <img :src="flag == true ? imgList[0] : imgList[1]">
             </div>
         </div>
-        <div class="loginPage">
-            <el-text style="font-size: 3vw;">登录 Login</el-text>
-            <el-input  v-model="EmailLog" style="width: 16vw" placeholder="请输入您的账号（邮箱）" clearable/><br>
-            <el-input  v-model="PasswordLog" style="width: 16vw" type="password" placeholder="请输入您的密码" show-password clearable/>
-            <div><br>
-                <el-button type="success" round class="finishButton">登录</el-button>
-                没有账号？去<button class="registerButton">注册</button>
+        <div class="registerForm"> 
+            <div class="titleForm">
+                <h1>注册</h1>
+            </div>
+            <div class="inputForm">
+                <input v-model="input" placeholder="请输入您的邮箱" clearable/>
+                <input v-model="input" type="password" placeholder="请输入您的密码" show-password/>
+                <input v-model="input" type="password" placeholder="请再次确认您的密码" show-password/>
+            </div>
+            <div class="buttonForm">
+                <el-button type="warning">注册</el-button>
+                <p>已有账号？去<span><button class="loginRegisterButton" @click="mySwitch">登录</button></span></p>
             </div>
         </div>
-
-        <div class="registerPage">
-        <el-text style="font-size: 3vw;">注册 Register</el-text>
-        <el-input v-model="EmailReg" style="width: 16vw" placeholder="请输入您的邮箱" clearable/><br>
-        <el-input v-model="PasswordReg" style="width: 16vw" type="password" placeholder="请输入您的密码" show-password clearable/><br>
-        <el-input v-model="PasswordReg_" style="width: 16vw" type="password" placeholder="请确认您的密码（确保两次输入密码一致）" show-password clearable/> 
-        <div><br>
-            <el-button type="warning" round class="finishButton">注册</el-button>
-            已有账号？去<button class="loginButton">登录</button></div>
-        </div> 
-
+        <div class="loginForm"> 
+            <div class="titleForm">
+                <h1>登录</h1>
+            </div>
+            <div class="inputForm">
+                <input v-model="input" placeholder="请输入您的邮箱" clearable/>
+                <input v-model="input" type="password" placeholder="请输入您的密码" show-password/>
+            </div>
+            <div class="buttonForm">
+                <el-button type="success">登录</el-button>
+                <p>没有账号？去<span><button class="loginRegisterButton" @click="mySwitch">注册</button></span></p>
+            </div>
+        </div>
     </div>
+</div>
 </template>
 
-<style>
-
+<style scoped>
 body {
-    margin: 0;
-    padding: 0;
+    display: flex;
     height: 100vh;
     width: 100vw;
     background: linear-gradient(to right,pink,skyblue);
+    overflow-x: hidden;
 }
 
-.registerButton {
-  text-decoration: underline;
-  background: none;
-  border: none;
-  color: inherit;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  text-decoration: underline
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-.loginButton {
-  text-decoration: underline;
-  background: none;
-  border: none;
-  color: inherit;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  text-decoration: underline
+
+.bigBody {
+    height: 100vh;
+    width: 73vw;
+    display: flex;
+    justify-content: center;
+} 
+
+.loginRegisterMain {
+    width: 1050px;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin: auto;
+    border-radius: 4vh;
+    border: 1px solid rgba(255, 255, 255, .6);
+    box-shadow: 4px 4px 3px rgba(0,0,0,.1);
 }
 
 .prePage {
+    width: calc(1050px / 2);
+    left: 0;
+    top: 0;
+    height: 100%;
     position: absolute;
-    z-index: 2;
+    border-radius: 4px;
+    background-color: #edd4dc;
+    box-shadow: 4px 4px 3px rgba(0,0,0,.1);
+    transition: 0.5s ease-in-out;
 }
 
-.loginRegisterImg {
-    width: 50%;
-    height: auto;
+.prePage h1 {
+    margin-top: 150px;
+    text-align: center;
+    color: white;
+    font-size: 40px;
+    letter-spacing: 5px;
+    text-shadow: 4px 4px 3px rgba(0,0,0,.1);
 }
 
-.loginRegister {
-    background: white;
-    display: flex;
-    justify-content: space-around;
-    width: 45vw;
-    height: 65vh;
-    border-radius: 12%;
-    border: 1% solid rgba(red, green, blue, alpha);
-    box-shadow: 4% 4% 3% rgba(0,0,0,.1);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.preImg {
+    width: 300px;
+    height: 300px;
+    margin: 20px auto;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 4px 4px 3px rgba(0,0,0,.1);
 }
 
-.loginPage {
+.preImg img {
+    width: 100%;
+
+}
+
+.loginForm,.registerForm {
+    flex: 1;
+    height: 100%;
+}
+
+.loginRegisterButton {
+    border: none; 
+    outline: none; 
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+.loginRegisterButton:hover {
+    text-decoration: none; 
+    color: #333; 
+    cursor: pointer; 
+}
+
+.titleForm {
+    height: 300px;
+    line-height: 500px;
+}
+
+.titleForm h1 {
+    text-align: center;
+    font-size: 40px;
+    color: white;
+    letter-spacing: 5px;
+}
+
+.inputForm {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    z-index: 1;
 }
 
-.registerPage {
+input {
+    width: 60%;
+    height: 40px;
+    margin-bottom: 20px;
+    text-indent: 4px;
+    border: 1px solid #b0cfe9;
+    border-radius: 4px;
+}
+
+.buttonForm {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    z-index: 1;
 }
 
-.finishButton {
-    width: 12vh;
+.el-button {
+    width: 100px;
+    height: 30px;
+    margin: 0 7px;
+}
+
+input:focus {
+    color: #b0cfe9;
+}
+
+input:focus::placeholder {
+    opacity: 0;
+}
+
+.el-button:hover {
+    cursor: pointer;
+    opacity: .8;
+}
+
+.buttonForm p {
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
 }
 
 </style>
