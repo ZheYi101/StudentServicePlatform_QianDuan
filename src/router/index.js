@@ -25,6 +25,14 @@ const routes = [
       title: "管理员页面",
     }
   },
+  {
+    path:"/userCenter",
+    name:"/userCenter",
+    component: () => import('../userCenter.vue'),
+    meta: {
+      title: "个人中心",
+    }
+  }
 ];
 
 const router = createRouter({

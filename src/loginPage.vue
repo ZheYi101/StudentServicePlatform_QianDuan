@@ -1,12 +1,5 @@
 <script setup>
 import {ref} from 'vue'
-//登录用的变量
-const EmailLog = ref('')
-const PasswordLog = ref('')
-//注册用的变量
-const EmailReg = ref('')
-const PasswordReg = ref('')
-const PasswordReg_ = ref('')
 
 const preRef = ref('')
 const imgList = ref([
