@@ -7,10 +7,7 @@ const isCollapse = ref(true)
 <template>
     <el-aside>
         <el-menu router unique-opened :collapse="!isCollapse">  
-            <a href="main" class="logo">
-                <img src="/Soso_logo.png" alt="">
-            </a>
-
+            <img src="/fangnai.png" class="serveImg">
             <el-sub-menu index="1">
                 <template #title> 
                     <el-icon> <QuestionFilled /> </el-icon> <span class="iconText">问题反馈</span>
@@ -44,10 +41,10 @@ const isCollapse = ref(true)
                 <el-menu-item index="manageUser">
                     <el-icon> <Setting /> </el-icon> <span class="iconText">用户管理</span>
                 </el-menu-item>
-
+            
             </el-sub-menu>
 
-
+            <img src="/mozi.png" style="width: 100%; height: auto;">
         </el-menu>
     </el-aside>
 </template>
@@ -59,11 +56,11 @@ const isCollapse = ref(true)
 }
 
 .el-menu-item {
-    background-color: #eee;
+    background: linear-gradient(to right,#edc9cb,pink);
 }
 
 .el-menu {
-    background-color: #eee;
+    background: linear-gradient(to right,#edc9cb,pink);
     width: 200px;
     border-right: none;
     &.el-menu--collapse {
@@ -74,17 +71,9 @@ const isCollapse = ref(true)
     }
 }
 
-.logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    color: black;
-    height: 60px;
-    img {
-        width: 48px;
-        height: 48px;
-    }
+.serveImg {
+  width: 100%;
+  height: 100%;
 }
 
 </style>
