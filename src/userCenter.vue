@@ -1,5 +1,10 @@
-<script>
-
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter()
+function ret() {
+  router.push('/main')
+}
 </script>
 
 <template>
@@ -13,7 +18,7 @@
           <h1>您的联系方式（手机号码）：{{ phone_num }}</h1>
         </div>
         <div class="returnButton">
-            <button>返回</button>
+            <button @click="ret()">返回</button>
         </div>
     </div>
 </template>

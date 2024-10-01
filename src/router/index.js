@@ -31,7 +31,10 @@ const routes = [
     component: () => import('../userCenter.vue'),
     meta: {
       title: "个人中心",
-    }
+    },
+    children:[
+
+    ]
   }
 ];
 
