@@ -2,18 +2,15 @@
 import {ref} from 'vue'
 import { useRouter } from 'vue-router'  //router
 import { postData } from './function/axios';
-
-//登录用的变量
-const EmailLog = ref('')
-const PasswordLog = ref('')
-//注册用的变量
-const EmailReg = ref('')
-const PasswordReg = ref('')
-const PasswordReg_ = ref('')
-const username = ref('') //学号
-const sex = ref("男") //性别
-const phone_num = ref('114514') //手机号
-
+//以下为登录相关变量
+const PasswordLog=ref('')
+const usernameLog=ref('')
+//以下为注册相关变量
+const EmailReg=ref('')
+const PasswordReg=ref('')
+const PasswordReg_=ref('')
+const usernameReg=ref('')
+const name=ref('')
 //以下为页面布局相关变量
 const preRef = ref('')
 const imgList = ref([
@@ -34,23 +31,23 @@ const mySwitch = () => {
 }
 
 function clear() {
-    EmailLog.value = ''
     PasswordLog.value = ''
     EmailReg.value = ''
     PasswordReg.value = ''
     PasswordReg_.value = ''
-    username.value = ''
-    sex.value = ''
-    phone_num.value = ''
+    usernameReg.value = ''
+    name.value = ''
+    usernameLog.value = ''
+    usernameReg.value = ''
 }
 function login() {
-    if(EmailLog.value === '' || PasswordLog.value === '') {
+    if(usernameLog.value === '' || PasswordLog.value === '') {
         alert('请输入您的账号和密码') 
         //这里大概就是提示下要输入 alert比较丑 但是我也不知道用啥 建议调一下
     }
     else {
         console.log('登录成功')
-        postData('/api/user/login', {
+        let response = postData('/api/user/login', {
             username: EmailLog.value,
             password: PasswordLog.value
         })
@@ -58,22 +55,19 @@ function login() {
 }
 
 function register() { //注册函数
-    if(EmailReg.value === '' || PasswordReg.value === '' || PasswordReg_.value === '') {
-        alert('请输入您的账号和密码')   //这些 alert都用elmUI 优化下 但是我不会
+    if(EmailReg.value === '' || PasswordReg.value === '' || PasswordReg_.value === '' || usernameReg.value === '' || name.value === '') {
+        alert('请输入完整信息')   //这些 alert都用elmUI 优化下 但是我不会
     }
     else if(PasswordReg.value !== PasswordReg_.value) {
         alert('两次输入的密码不一致')
     }
     else {
         console.log('注册成功')
-        postData('/api/user/register', {
+        let response = postData('/api/user/register', {
             email: EmailReg.value, //邮箱
             password: PasswordReg.value, //密码
-            username: username.value, //学号
-            sex: "男", //性别
-            phone_num: phone_num.value, //手机号
-            user_type: 1,
-            name: "折乙"
+            username: usernameReg.value, //学号
+            name: name.value, //姓名
         })
     }
 }
@@ -81,6 +75,9 @@ function register() { //注册函数
 
 <template>
 <div class="bigBody">
+    <div class="topText">
+        <h1 style="font-size: 20px;justify-content: center;display: flex;color: whitesmoke;">主创：黄星晓 王昌翔 付鹏汇 张紫涵</h1>
+    </div>
     <div class="loginRegisterMain">
         <div class="prePage" ref="preRef">
             <h1>Welcome To Join Us</h1>
@@ -94,8 +91,10 @@ function register() { //注册函数
             </div>
             <div class="inputForm">
                 <input v-model="EmailReg" placeholder="请输入您的邮箱" clearable/>
-                <input v-model="PasswordReg" type="password" placeholder="请输入您的密码" show-password/>
-                <input v-model="PasswordReg_" type="password" placeholder="请再次确认您的密码" show-password/>
+                <input v-model="usernameReg" placeholder="请输入您的账号（学号）" clearable/>
+                <input v-model="name" placeholder="请输入您的姓名" clearable/>
+                <input v-model="PasswordReg" type="password" placeholder="请输入您想设置的密码" show-password/>
+                <input v-model="PasswordReg_" type="password" placeholder="请确认您的密码" show-password/>
             </div>
             <div class="buttonForm">
                 <el-button type="warning" @click="register()">注册</el-button>
@@ -107,11 +106,11 @@ function register() { //注册函数
                 <h1>登录</h1>
             </div>
             <div class="inputForm">
-                <input v-model="EmailLog" placeholder="请输入您的邮箱" clearable/>
+                <input v-model="usernameLog" placeholder="请输入您的账号（学号）" clearable/>
                 <input v-model="PasswordLog" type="password" placeholder="请输入您的密码" show-password/>
             </div>
             <div class="buttonForm">
-                <el-button type="success">登录</el-button>
+                <el-button type="success" @click="login()">登录</el-button>
                 <p>没有账号？去<span><button class="loginRegisterButton" @click="mySwitch">注册</button></span></p>
             </div>  
         </div>
@@ -119,12 +118,12 @@ function register() { //注册函数
 </div>
 </template>
 
-<style>
-
-body {
+<style >
+html,body {
     display: flex;
     height: 100vh;
     width: 100vw;
+    margin: 0;
     background: linear-gradient(to right,pink,skyblue);
     overflow-x: hidden;
 }
@@ -138,15 +137,18 @@ body {
 .bigBody {
     height: 100vh;
     width: 73vw;
+    margin: 0;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    background: linear-gradient(to right,pink,skyblue);
 } 
 
 .loginRegisterMain {
-    width: 1050px;
+    width: 100%;
+    max-width: 1050px;
     height: 600px;
     display: flex;
-    justify-content: center;
     position: relative;
     margin: auto;
     border-radius: 4vh;
@@ -163,6 +165,7 @@ body {
     border-radius: 4px;
     background-color: #edd4dc;
     box-shadow: 4px 4px 3px rgba(0,0,0,.1);
+    border-radius: 4vh;
     transition: 0.5s ease-in-out;
 }
 
@@ -190,6 +193,8 @@ body {
 }
 
 .loginForm,.registerForm {
+    display: flex;
+    flex-direction: column;
     flex: 1;
     height: 100%;
 }
@@ -210,6 +215,7 @@ body {
 .titleForm {
     height: 300px;
     line-height: 500px;
+    flex-grow: 1;
 }
 
 .titleForm h1 {
@@ -223,6 +229,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-grow: 1;
 }
 
 input {
@@ -237,6 +244,7 @@ input {
 .buttonForm {
     display: flex;
     justify-content: center;
+    flex-grow: 1;
 }
 
 .el-button {
