@@ -10,9 +10,13 @@ export default defineConfig({
     vue(),
     vueJsx(),
   ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+  server: {
+    proxy: {
+        '/api': {
+            target: 'http://121.40.27.84:8080/',
+            changeOrigin: true,
+            pathRewrite: { '^/api': '' }
+        }
     }
   }
 })
