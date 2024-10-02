@@ -11,13 +11,12 @@ return await axios.get(url, {
             // return response.data.data
         } else {
             // 发布失败，显示错误消息
-            alert("getData失败");
+            console.log("getData失败");
         }
     })
     .catch(error => {
         // 处理错误
         console.error('后端爆啦:', error);
-        alert('后端爆啦: ' + error.message);
     });
 }
 
@@ -29,13 +28,12 @@ return await axios.post(url, params)
             console.log("发布成功")
             return response.data.data;
         } else {
-            alert(response.data.msg);
+            console.log(response.data.msg);
         }
     })
     .catch(error => {
         // 处理错误
         console.error('后端爆啦:', error);
-        alert("后端爆啦: " + error.message);
     });
 }
 
@@ -47,13 +45,12 @@ export async function putData(url, params) {
                 console.log("发布成功")
                 return response.data.data;
             } else {
-                alert(response.data.msg);
+                console.log(response.data.msg);
             }
         })
         .catch(error => {
             // 处理错误
             console.error('后端爆啦:', error);
-            alert("后端爆啦: " + error.message);
         });
 }
  
