@@ -1,22 +1,30 @@
 <script setup lang="ts">
 import AppAside from './appAside.vue';
+
+//void toggleCollapse() {
+  //isCollapse.value = !isCollapse.value;
+//}
+
 </script>
 
 <template>
     <div class="common-layout">
       <el-container>
         <el-header>
-          <a href="main" class="logo">
-                <img src="/Soso_logo.png" alt="">
-            </a>
           <img src="/text.png" class="textImg">
-          <img src="/Q_congyu.jpg" style="height: 100%; margin-left:65%;">
         </el-header>
         <el-container>
             <AppAside />
           <el-container>
             <el-main>
-              <el-icon @click=""><Grid /></el-icon>
+              <div class="fixed-icon">
+                <el-icon @click="toggleCollapse" class="getCollapse">
+                <Grid />
+                </el-icon>
+              </div>
+                <el-scrollbar>
+                  <RouterView />
+                </el-scrollbar>
             </el-main>
           </el-container>
         </el-container>
@@ -24,25 +32,26 @@ import AppAside from './appAside.vue';
     </div>
   </template>
 
-<style>
-
+<style scoped>
 * {
     padding: 0px;
     margin: 0px;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
-  background: linear-gradient(to right, rgb(236, 152, 166), rgb(169, 240, 237));
-  overflow: hidden;
+.fixed-icon {
+  position: fixed;
+  font-size: 30px;
+  z-index: 1000; 
+  left: 210px;
+  bottom: 700px;
 }
 
 #app {
   margin: 0;
-  padding: 0;
+}
+
+.getCollapse {
+  cursor: pointer; 
 }
 
 .textImg {
@@ -54,40 +63,45 @@ body {
 .common-layout {
     width: 100vw;
     height: 100vh;
-}
-
-.logo {
-    text-decoration: none;
-    color: black;
-    height: 60px;
-    img {
-        width: auto;
-        height: 95%;
-    }
-    margin-left: 2.5%;
+    overflow: hidden; 
 }
 
 .el-container {
     height: 100%;
-    width: 100%;
-  }
+    width: auto;
+    display: flex;
+    flex-direction: column;
+}
 
 .el-header {
     width: 100%;
-    border-bottom: 1px solid #d4d5d4d3;
-    height: 7%;
-    background: linear-gradient(to right,#9489b1,#917eb7);
-}
-.el-aside {
-    height: 100%;
-    width: auto;
-    background: linear-gradient(to right,#edc9cb,pink);
-}
-.el-main {
-    height: auto;
-    width: auto;
-    background-image: url(/790.jpg);background-repeat: no-repeat;width: 100;background-size: cover;
+    height: 8%; 
+    background: #ffffff;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    position: fixed; 
+    top: 0;
+    left: 0;
+    z-index: 1030; 
 }
 
+.el-container .el-aside {
+    width: 200px; 
+    height: calc(100% - 8%); 
+    background-color: #f4f6f9;
+    margin-top: 4%; 
+    position: fixed; 
+    left: 0;
+    z-index: 1020; 
+}
 
+.el-container .el-main {
+    margin-left: 200px; 
+    padding-top: 8%; 
+    height: calc(100% - 8%); 
+    overflow-y: auto; 
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    width: calc(100% - 200px); 
+}
 </style>

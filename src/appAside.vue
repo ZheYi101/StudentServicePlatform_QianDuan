@@ -1,13 +1,6 @@
-<script setup>
-import { ref } from 'vue';
-const isCollapse = ref(true)
-
-</script>
-
 <template>
     <el-aside>
         <el-menu router unique-opened :collapse="!isCollapse">  
-            <img src="/fangnai.png" class="serveImg">
             <el-sub-menu index="1">
                 <template #title> 
                     <el-icon> <QuestionFilled /> </el-icon> <span class="iconText">问题反馈</span>
@@ -23,12 +16,11 @@ const isCollapse = ref(true)
                 </el-menu-item>
             </el-sub-menu>
 
-            <el-menu-item index="userCenter">
-                    <el-icon> <UserFilled /> </el-icon> <span class="iconText">个人中心</span>
+            <el-menu-item index="/main/userCenter" to="/main/userCenter">
+                <el-icon> <UserFilled /> </el-icon> <span class="iconText">个人中心</span>
             </el-menu-item>
 
             <el-sub-menu index="2">
-
                 <template #title> 
                     <el-icon> <Avatar /> </el-icon> <span class="iconText">平台管理</span>
                 </template>
@@ -41,31 +33,44 @@ const isCollapse = ref(true)
                 <el-menu-item index="manageUser">
                     <el-icon> <Setting /> </el-icon> <span class="iconText">用户管理</span>
                 </el-menu-item>
-            
             </el-sub-menu>
-
-            <img src="/mozi.png" style="width: 100%; height: auto;">
         </el-menu>
     </el-aside>
 </template>
 
-<style scoped>
+<script setup>
+import { ref } from 'vue';
+const isCollapse = ref(true)
+</script>
 
+<style scoped>
 .iconText {
     letter-spacing: 0.5vw;
 }
 
 .el-menu-item {
-    background: linear-gradient(to right,#edc9cb,pink);
+    background-color: #f4f6f9;
+}
+
+.el-menu-item:hover {
+    text-decoration: none; 
+    color: green; 
+    cursor: pointer; 
+}
+
+.el-menu:hover {
+    text-decoration: none; 
+    color: green; 
+    cursor: pointer; 
 }
 
 .el-menu {
-    background: linear-gradient(to right,#edc9cb,pink);
+    background-color: #f4f6f9;
     width: 200px;
     border-right: none;
     &.el-menu--collapse {
         width: 60px;
-        &h1 {
+        h1 {
             display: none;
         }
     }
@@ -75,5 +80,4 @@ const isCollapse = ref(true)
   width: 100%;
   height: 100%;
 }
-
 </style>
