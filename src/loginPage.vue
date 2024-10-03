@@ -47,7 +47,7 @@ function login() {
     }
     else {
         let response = postData('/api/user/login', {
-            username: EmailLog.value,
+            username: usernameLog.value,
             password: PasswordLog.value
         })
         console.log(response)
@@ -66,14 +66,8 @@ function register() { //注册函数
     if(EmailReg.value === '' || PasswordReg.value === '' || PasswordReg_.value === '' || usernameReg.value === '' || name.value === '') {
         alert('请输入完整信息')   //这些 alert都用elmUI 优化下 但是我不会
     }
-    else if(PasswordReg.value.length<=3) {
-        alert('密码长度不能小于8位')
-    }
     else if(PasswordReg.value !== PasswordReg_.value) {
         alert('两次输入的密码不一致')
-    }
-    else if(usernameReg.value.length!=12) {
-        alert('学号形式错误')
     }
     else if(PasswordReg.value.length<8) {
         alert('密码长度不能小于8位')
@@ -84,8 +78,8 @@ function register() { //注册函数
             password: PasswordReg.value, //密码
             username: usernameReg.value, //学号
             name: name.value, //姓名
-        })
-        console.log(response)
+        });
+        console.log(response.value);
         if(response.data.code===200) {
             console.log(response.data.msg)
             router.push('/main')
@@ -116,7 +110,7 @@ function register() { //注册函数
             </div>
             <div class="inputForm">
                 <input v-model="EmailReg" placeholder="请输入您的邮箱" clearable/>
-                <input v-model="usernameReg" placeholder="请输入您的账号（学号）" clearable/>
+                <input v-model="usernameReg" type="number" placeholder="请输入您的账号（学号）" clearable/>
                 <input v-model="name" placeholder="请输入您的姓名" clearable/>
                 <input v-model="PasswordReg" type="password" placeholder="请输入您想设置的密码" show-password/>
                 <input v-model="PasswordReg_" type="password" placeholder="请确认您的密码" show-password/>
@@ -131,7 +125,7 @@ function register() { //注册函数
                 <h1>登录</h1>
             </div>
             <div class="inputForm">
-                <input v-model="usernameLog" placeholder="请输入您的账号（学号）" clearable/>
+                <input v-model="usernameLog" type="number" placeholder="请输入您的账号（学号）" clearable/>
                 <input v-model="PasswordLog" type="password" placeholder="请输入您的密码" show-password/>
             </div>
             <div class="buttonForm">
@@ -149,7 +143,7 @@ html,body {
     height: 100vh;
     width: 100vw;
     margin: 0;
-    background: linear-gradient(to right,pink,skyblue);
+    background: linear-gradient(to right,gray,white);
     overflow-x: hidden;
 }
 
@@ -225,6 +219,7 @@ html,body {
 }
 
 .loginRegisterButton {
+    flex-grow: 1;
     border: none; 
     outline: none; 
     background-color: transparent;
@@ -238,9 +233,11 @@ html,body {
 }
 
 .titleForm {
-    height: 300px;
-    line-height: 500px;
     flex-grow: 1;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .titleForm h1 {

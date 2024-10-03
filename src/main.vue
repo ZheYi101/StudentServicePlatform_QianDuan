@@ -25,20 +25,11 @@ import AppAside from './appAside.vue';
   </template>
 
 <style>
-
 * {
     padding: 0px;
     margin: 0px;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
-  background: linear-gradient(to right, rgb(236, 152, 166), rgb(169, 240, 237));
-  overflow: hidden;
-}
 
 #app {
   margin: 0;
@@ -76,17 +67,16 @@ body {
     width: 100%;
     border-bottom: 1px solid #d4d5d4d3;
     height: 7%;
-    background: linear-gradient(to right,#9489b1,#917eb7);
+    background: rgb(247, 197, 203);
 }
 .el-aside {
     height: 100%;
     width: auto;
-    background: linear-gradient(to right,#edc9cb,pink);
+    background: rgb(238, 238, 238);
 }
 .el-main {
     height: auto;
     width: auto;
-    background-image: url(/790.jpg);background-repeat: no-repeat;width: 100;background-size: cover;
 }
 
 

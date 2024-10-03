@@ -1,9 +1,7 @@
 import axios from 'axios'
 
-export async function getData(url, params) {
-return await axios.get(url, {
-        params
-    })
+export async function getData(url, data) {
+return await axios.get(url,data)
     .then(response => {
         // 处理响应
         if (response.data.code === 200) {
@@ -20,25 +18,26 @@ return await axios.get(url, {
     });
 }
 
-export async function postData(url, params) {
-return await axios.post(url, params)
+export async function postData(url, data) {
+console.log(data)
+return await axios.post(url, data)
     .then(response => {
         // 处理响应
         if (response.data.code === 200) {
             console.log("发布成功")
-            return response.data.data;
         } else {
-            console.log(response.data.msg);
+            console.log(response.data);
         }
     })
     .catch(error => {
         // 处理错误
         console.error('后端爆啦:', error);
+        return response.data;
     });
 }
 
-export async function putData(url, params) {
-    return await axios.put(url, params) 
+export async function putData(url, data) {
+    return await axios.put(url, data) 
         .then(response => {
             // 处理响应
             if (response.data.code === 200) {

@@ -23,18 +23,7 @@ function ret() {
     </div>
 </template>
 
-<style >
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
-  background: linear-gradient(to right, rgb(236, 152, 166), rgb(169, 240, 237));
-  overflow: hidden;
-}
-#app {
-  display: flex;
-}
+<style scoped>
 .individual {
   display: flex;
   justify-items: center;
