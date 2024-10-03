@@ -56,11 +56,11 @@ const isCollapse = ref(true)
 }
 
 .el-menu-item {
-    background: linear-gradient(to right,#edc9cb,pink);
+    background: rgb(238, 238, 238);
 }
 
 .el-menu {
-    background: linear-gradient(to right,#edc9cb,pink);
+    background: rgb(238, 238, 238);
     width: 200px;
     border-right: none;
     &.el-menu--collapse {
