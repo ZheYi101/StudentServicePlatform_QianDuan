@@ -13,19 +13,6 @@
 
 <style scoped>
 
-.user-center {
-  background-color: rgba(255, 255, 255, 0.5); 
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  border-radius: 10px; 
-  z-index: 1;
-  height: 100%;
-  width: 90%;
-}
-
 .information {
   display: flex;
   margin-top: 1%;
