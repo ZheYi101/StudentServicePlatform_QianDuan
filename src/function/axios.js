@@ -19,30 +19,29 @@ return await axios.get(url,data)
 }
 
 export async function postData(url, data) {
-console.log(data)
-return await axios.post(url, data)
-    .then(response => {
-        // 处理响应
-        if (response.data.code === 200) {
-            console.log("发布成功")
-        } else {
-            console.log(response.data);
-        }
-    })
-    .catch(error => {
-        // 处理错误
-        console.error('后端爆啦:', error);
-        return response.data;
-    });
+  try {
+    const response = await axios.post(url, data);
+    // 处理响应
+    if (response.data.code === 200) {
+      console.log("postData成功");
+      return response.data; // 返回响应数据
+    } else {
+      console.log(response.data.msg);
+      return response.data; // 返回响应数据
+    }
+  } catch (error) {
+    // 处理错误
+    console.error('后端爆啦:', error);
+    throw error; // 抛出错误以便可以在调用方捕获
+  }
 }
 
 export async function putData(url, data) {
-    return await axios.put(url, data) 
+return await axios.put(url, data) 
         .then(response => {
             // 处理响应
             if (response.data.code === 200) {
-                console.log("发布成功")
-                return response.data.data;
+                console.log("putData成功")
             } else {
                 console.log(response.data.msg);
             }

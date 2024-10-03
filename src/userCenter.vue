@@ -1,3 +1,28 @@
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'  //router
+import { getData } from './function/axios';
+const router = useRouter()
+const username = ref('')
+const name = ref('')
+const sex = ref('')
+const phone_num = ref('')
+const email = ref('')
+
+const getUserInfo = async () => {
+  const res = await getData('/api/user/getUserInfo', {
+    username: username.value
+  })
+  console.log(res)
+  if (res.data.code === 200) {
+    username.value = res.data.data.username
+    name.value = res.data.data.name
+    sex.value = res.data.data.sex
+    phone_num.value = res.data.data.phone_num
+    email.value = res.data.data.email
+  }
+}
+</script>
 <template>
   <div class="user-center">
     <h1 style="font-size: 40px; display: flex ;justify-content: center">WELCOME TO CHECK YOUR INFORMATION</h1>

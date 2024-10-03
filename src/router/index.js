@@ -20,6 +20,9 @@ const routes = [
     path: '/main',
     name: 'main',
     component: Main,
+    meta: {
+      title: "主页",
+    },
     children: [
       {
         path: '',
