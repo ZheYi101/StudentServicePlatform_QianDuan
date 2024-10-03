@@ -1,139 +1,145 @@
 <script setup>
-import {ref} from 'vue'
-import { useRouter } from 'vue-router'  //router
+import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { postData } from './function/axios';
-//以下为登录相关变量
-const PasswordLog=ref('')
-const usernameLog=ref('')
-//以下为注册相关变量
-const EmailReg=ref('')
-const PasswordReg=ref('')
-const PasswordReg_=ref('')
-const usernameReg=ref('')
-const name=ref('')
-//以下为页面布局相关变量
+import { ElAlert } from 'element-plus';
+
+const PasswordLog = ref('')
+const usernameLog = ref('')
+
+const EmailReg = ref('')
+const emailError = ref('')
+watch(EmailReg, () => {
+  if (!EmailReg.value || EmailReg.value.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/)) {
+    emailError.value = '';
+  } else {
+    emailError.value = '请输入正确的邮箱格式';
+  }
+})
+
+const PasswordReg = ref('')
+const PasswordReg_ = ref('')
+const usernameReg = ref('')
+const name = ref('')
+
 const preRef = ref('')
 const imgList = ref([
   new URL('/fufffh.jpg', import.meta.url).href,
   new URL('/pink_fufffh.jpg', import.meta.url).href
 ])
 let flag = ref(true)
+
 const mySwitch = () => {
-    if(flag.value) {
-        preRef.value.style.background = '#d3d3d3'
-        preRef.value.style.transform = 'translateX(100%)'
-    }else {
-        preRef.value.style.background = '#b4b2b2'
-        preRef.value.style.transform = 'translateX(0%)'
-    }
-    flag.value = !flag.value
-    clear()
+  if (flag.value) {
+    preRef.value.style.background = '#d3d3d3'
+    preRef.value.style.transform = 'translateX(100%)'
+  } else {
+    preRef.value.style.background = '#b4b2b2'
+    preRef.value.style.transform = 'translateX(0%)'
+  }
+  flag.value = !flag.value
+  clear()
 }
 
 function clear() {
-    PasswordLog.value = ''
-    EmailReg.value = ''
-    PasswordReg.value = ''
-    PasswordReg_.value = ''
-    usernameReg.value = ''
-    name.value = ''
-    usernameLog.value = ''
-    usernameReg.value = ''
-}
-function login() {
-    if(usernameLog.value === '' || PasswordLog.value === '') {
-        alert('请输入您的账号和密码') 
-        //这里大概就是提示下要输入 alert比较丑 但是我也不知道用啥 建议调一下
-    }
-    else {
-        let response = postData('/api/user/login', {
-            username: usernameLog.value,
-            password: PasswordLog.value
-        })
-        console.log(response)
-        if(response.data.code === 200) {
-            console.log(response.data.msg)
-            alert('登录成功')
-            router.push('/main')
-        }
-        else {
-            alert('后端爆啦')
-        }
-    }
+  PasswordLog.value = ''
+  EmailReg.value = ''
+  PasswordReg.value = ''
+  PasswordReg_.value = ''
+  usernameReg.value = ''
+  name.value = ''
+  usernameLog.value = ''
+  usernameReg.value = ''
 }
 
-function register() { //注册函数
-    if(EmailReg.value === '' || PasswordReg.value === '' || PasswordReg_.value === '' || usernameReg.value === '' || name.value === '') {
-        alert('请输入完整信息')   //这些 alert都用elmUI 优化下 但是我不会
+function login() {
+  if (usernameLog.value === '' || PasswordLog.value === '') {
+    alert('请输入您的账号和密码')
+  } else {
+    let response = postData('/api/user/login', {
+      username: usernameLog.value,
+      password: PasswordLog.value
+    })
+    console.log(response)
+    if (response.data.code === 200) {
+      console.log(response.data.msg)
+      alert('登录成功')
+      router.push('/main')
+    } else {
+      alert('后端爆啦')
     }
-    else if(PasswordReg.value !== PasswordReg_.value) {
-        alert('两次输入的密码不一致')
+  }
+}
+
+function register() {
+  if (EmailReg.value === '' || PasswordReg.value === '' || PasswordReg_.value === '' || usernameReg.value === '' || name.value === '') {
+    alert('请输入完整信息')
+  } else if (PasswordReg.value !== PasswordReg_.value) {
+    alert('两次输入的密码不一致')
+  } else if (PasswordReg.value.length < 8) {
+    alert('密码长度不能小于8位')
+  } else {
+    let response = postData('/api/user/register', {
+      email: EmailReg.value,
+      password: PasswordReg.value,
+      username: usernameReg.value,
+      name: name.value,
+    });
+    console.log(response.value);
+    if (response.data.code === 200) {
+      console.log(response.data.msg)
+      router.push('/main')
+      alert('注册成功')
+    } else {
+      alert('后端爆啦')
     }
-    else if(PasswordReg.value.length<8) {
-        alert('密码长度不能小于8位')
-    }
-    else {
-        let response = postData('/api/user/register', {
-            email: EmailReg.value, //邮箱
-            password: PasswordReg.value, //密码
-            username: usernameReg.value, //学号
-            name: name.value, //姓名
-        });
-        console.log(response.value);
-        if(response.data.code===200) {
-            console.log(response.data.msg)
-            router.push('/main')
-            alert('注册成功')
-        }
-        else {
-            alert('后端爆啦')
-        }
-    }
+  }
 }
 </script>
 
 <template>
 <div class="bigBody">
-    <div class="topText">
-        <h1 style="font-size: 20px;justify-content: center;display: flex;color: whitesmoke;">主创：黄星晓 王昌翔 付鹏汇 张紫涵</h1>
+  <div class="topText">
+    <h1 style="font-size: 20px;justify-content: center;display: flex;color: whitesmoke;">主创：黄星晓 王昌翔 付鹏汇 张紫涵</h1>
+  </div>
+  <div class="loginRegisterMain">
+    <div class="prePage" ref="preRef">
+      <h1>Welcome To Join Us</h1>
+      <div class="preImg">
+        <img :src="flag == true ? imgList[0] : imgList[1]">
+      </div>
     </div>
-    <div class="loginRegisterMain">
-        <div class="prePage" ref="preRef">
-            <h1>Welcome To Join Us</h1>
-            <div class="preImg">
-                <img :src="flag == true ? imgList[0] : imgList[1]">
-            </div>
-        </div>
-        <div class="registerForm"> 
-            <div class="titleForm">
-                <h1>注册</h1>
-            </div>
-            <div class="inputForm">
-                <input v-model="EmailReg" placeholder="请输入您的邮箱" clearable/>
-                <input v-model="usernameReg" type="number" placeholder="请输入您的账号（学号）" clearable/>
-                <input v-model="name" placeholder="请输入您的姓名" clearable/>
-                <input v-model="PasswordReg" type="password" placeholder="请输入您想设置的密码" show-password/>
-                <input v-model="PasswordReg_" type="password" placeholder="请确认您的密码" show-password/>
-            </div>
-            <div class="buttonForm">
-                <el-button type="warning" @click="register()">注册</el-button>
-                <p>已有账号？去<span><button class="loginRegisterButton" @click="mySwitch">登录</button></span></p>
-            </div>
-        </div>
-        <div class="loginForm"> 
-            <div class="titleForm">
-                <h1>登录</h1>
-            </div>
-            <div class="inputForm">
-                <input v-model="usernameLog" type="number" placeholder="请输入您的账号（学号）" clearable/>
-                <input v-model="PasswordLog" type="password" placeholder="请输入您的密码" show-password/>
-            </div>
-            <div class="buttonForm">
-                <el-button type="success" @click="login()">登录</el-button>
-                <p>没有账号？去<span><button class="loginRegisterButton" @click="mySwitch">注册</button></span></p>
-            </div>  
-        </div>
+    <div class="registerForm"> 
+      <div class="titleForm">
+        <h1>注册</h1>
+      </div>
+      <div class="inputForm">
+        <input v-model="EmailReg" placeholder="请输入您的邮箱" clearable/>
+        <p v-if="emailError" style="color: red; margin-top:0px">{{ emailError }}</p>
+        <input v-model="usernameReg" type="number" placeholder="请输入您的账号（学号）" clearable/>
+        <input v-model="name" placeholder="请输入您的姓名" clearable/>
+        <input v-model="PasswordReg" type="password" placeholder="请输入您想设置的密码" show-password/>
+        <input v-model="PasswordReg_" type="password" placeholder="请确认您的密码" show-password/>
+      </div>
+      <div class="buttonForm">
+        <el-button type="warning" @click="register()">注册</el-button>
+        <p>已有账号？去<span><button class="loginRegisterButton" @click="mySwitch">登录</button></span></p>
+      </div>
     </div>
+    <div class="loginForm"> 
+      <div class="titleForm">
+        <h1>登录</h1>
+      </div>
+      <div class="inputForm">
+        <input v-model="usernameLog" type="number" placeholder="请输入您的账号（学号）" clearable/>
+        <input v-model="PasswordLog" type="password" placeholder="请输入您的密码" show-password/>
+      </div>
+      <div class="buttonForm">
+        <el-button type="success" @click="login()">登录</el-button>
+        <p>没有账号？去<span><button class="loginRegisterButton" @click="mySwitch">注册</button></span></p>
+      </div>  
+    </div>
+  </div>
 </div>
 </template>
 
