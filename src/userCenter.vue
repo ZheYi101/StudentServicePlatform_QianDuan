@@ -1,59 +1,40 @@
-<script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-const router = useRouter()
-function ret() {
-  router.push('/main')
-}
-</script>
-
 <template>
-    <div class="individual">
-        <h0>个人中心</h0>
-        <div class="centerMain">
-          <h1>您的账号：{{ username }}</h1>
-          <h1>您的姓名：{{ name }}</h1>
-          <h1>您的性别：{{ sex }}</h1>
-          <h1>您的电子邮箱：{{ email }}</h1>
-          <h1>您的联系方式（手机号码）：{{ phone_num }}</h1>
-        </div>
-        <div class="returnButton">
-            <button @click="ret()">返回</button>
-        </div>
+  <div class="user-center">
+    <h1 style="font-size: 40px; display: flex ;justify-content: center">WELCOME TO CHECK YOUR INFORMATION</h1>
+    <div class="information">
+      <h1>学号：{{ username }}</h1>
+      <h1>姓名：{{ name }}</h1>
+      <h1>性别：您是 {{ sex }} 生</h1>
+      <h1>电话号码：{{ phone_num }}</h1>
+      <h1>邮箱：{{ email }}</h1>
     </div>
+  </div>
 </template>
 
 <style scoped>
-.individual {
-  display: flex;
-  justify-items: center;
-  flex-direction: column;
+
+.user-center {
+  background-color: rgba(255, 255, 255, 0.5); 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border-radius: 10px; 
+  z-index: 1;
   height: 100%;
-  width: 30vw;
+  width: 90%;
 }
 
-.individual h0 {
-  font-size: 60px;
-  margin: 0;
+.information {
+  display: flex;
+  margin-top: 1%;
+  flex-direction: column;
   text-align: center;
 }
 
-.centerMain h1 {
-  position: relative;
-  padding: 1vh;
-  left: 1vw;
-  font-size: 20px;
-  margin: 0;
+.information h1 {
+  font-size: 21px;
 }
-
-.centerMain {
-  display: flex;
-  flex-direction: column;
-  border-radius: 4vh;
-  border: 1px solid rgba(255, 255, 255, .6);
-  box-shadow: 4px 4px 3px rgba(0,0,0,.1);
-}
-
 
 </style>
-

@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory,createWebHashHistory,useRouter } from 'vue-router';
+import Main from '../main.vue';
+import IndexView from '../IndexView.vue';
+import UserCenter from '../userCenter.vue';
 
 const routes = [
   {
@@ -10,31 +13,21 @@ const routes = [
     }
   },
   {
-    path: "/main",
-    name:"main",
-    component: () => import('../main.vue'),
-    meta: {
-      title: "主页面",
-    }
-  },
-  {
-    path: "/admin",
-    name:"admin",
-    component: () => import('../admin.vue'),
-    meta: {
-      title: "管理员页面",
-    }
-  },
-  {
-    path:"/userCenter",
-    name:"/userCenter",
-    component: () => import('../userCenter.vue'),
-    meta: {
-      title: "个人中心",
-    },
-    children:[
-
-    ]
+    path: '/main',
+    name: 'main',
+    component: Main,
+    children: [
+      {
+        path: '',
+        component: IndexView,
+        name: 'indexView' 
+      },
+      {
+        path: 'userCenter',
+        component: UserCenter,
+        name: "userCenter",
+      }
+    ],
   }
 ];
 

@@ -20,10 +20,10 @@ const imgList = ref([
 let flag = ref(true)
 const mySwitch = () => {
     if(flag.value) {
-        preRef.value.style.background = '#c9e0ed'
+        preRef.value.style.background = '#d3d3d3'
         preRef.value.style.transform = 'translateX(100%)'
     }else {
-        preRef.value.style.background = '#edd4dc'
+        preRef.value.style.background = '#b4b2b2'
         preRef.value.style.transform = 'translateX(0%)'
     }
     flag.value = !flag.value
@@ -137,7 +137,7 @@ function register() { //注册函数
 </div>
 </template>
 
-<style >
+<style>
 html,body {
     display: flex;
     height: 100vh;
@@ -145,6 +145,11 @@ html,body {
     margin: 0;
     background: linear-gradient(to right,gray,white);
     overflow-x: hidden;
+}
+
+#app {
+  margin: 0;
+  padding: 0;
 }
 
 * {
@@ -155,12 +160,11 @@ html,body {
 
 .bigBody {
     height: 100vh;
-    width: 73vw;
+    width: 100vw;
     margin: 0;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    background: linear-gradient(to right,pink,skyblue);
 } 
 
 .loginRegisterMain {
@@ -182,7 +186,7 @@ html,body {
     height: 100%;
     position: absolute;
     border-radius: 4px;
-    background-color: #edd4dc;
+    background-color: #b4b2b2;
     box-shadow: 4px 4px 3px rgba(0,0,0,.1);
     border-radius: 4vh;
     transition: 0.5s ease-in-out;
