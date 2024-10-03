@@ -54,7 +54,7 @@ function clear() {
 }
 function login() {
     if(usernameLog.value === '' || PasswordLog.value === '') {
-        alert('请输入您的账号和密码') 
+        ElMessage.error('请输入您的账号和密码！') 
         //这里大概就是提示下要输入 alert比较丑 但是我也不知道用啥 建议调一下
     }
     else {
@@ -65,24 +65,24 @@ function login() {
         console.log(response)
         if(response.data.code === 200) {
             console.log(response.data.msg)
-            alert('登录成功')
+            ElMessage.success('登录成功！')
             router.push('/main')
         }
         else {
-            alert('后端爆啦')
+            ElMessage.error('后端爆啦！')
         }
     }
 }
 
 function register() { //注册函数
     if(EmailReg.value === '' || PasswordReg.value === '' || PasswordReg_.value === '' || usernameReg.value === '' || name.value === '') {
-        alert('请输入完整信息')   //这些 alert都用elmUI 优化下 但是我不会
+        ElMessage.error('请输入完整信息！')   //这些 alert都用elmUI 优化下 但是我不会
     }
     else if(PasswordReg.value !== PasswordReg_.value) {
-        alert('两次输入的密码不一致')
+        ElMessage.error('两次输入的密码不一致！')
     }
     else if(PasswordReg.value.length<8) {
-        alert('密码长度不能小于8位')
+        ElMessage.error('密码长度不能小于8位！')
     }
     else {
         let response = postData('/api/user/register', {
@@ -95,11 +95,11 @@ function register() { //注册函数
         if(response.data.code===200) {
             console.log(response.data.msg)
             router.push('/main')
-            alert('注册成功')
+            ElMessage.success('注册成功！')
         }
         else {
-            alert('后端爆啦')
-        }
+           ElMessage.error('后端爆啦')
+        
     }
 }
 }
