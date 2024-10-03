@@ -2,6 +2,10 @@ import { createRouter, createWebHistory,createWebHashHistory,useRouter } from 'v
 import Main from '../main.vue';
 import IndexView from '../IndexView.vue';
 import UserCenter from '../userCenter.vue';
+import postProblem from '../postProblem.vue';
+import problemProcess from '../problemProcess.vue';
+import checkProblem from '../checkProblem.vue';
+import manageUser from '../manageUser.vue';
 
 const routes = [
   {
@@ -26,7 +30,27 @@ const routes = [
         path: 'userCenter',
         component: UserCenter,
         name: "userCenter",
-      }
+      },
+      {
+        path: 'postProblem',
+        component: postProblem,
+        name: "postProblem",
+      },
+      {
+        path: 'problemProcess',
+        component: problemProcess,
+        name: "problemProcess",
+      },
+      {
+        path: 'checkProblem',
+        component: checkProblem,
+        name: "checkProblem",
+      },
+      {
+        path: 'manageUser',
+        component: manageUser,
+        name: "manageUser",
+      },
     ],
   }
 ];

@@ -5,14 +5,11 @@
                 <template #title> 
                     <el-icon> <QuestionFilled /> </el-icon> <span class="iconText">问题反馈</span>
                 </template>
-                <el-menu-item index="postProblem">
+                <el-menu-item index="/main/postProblem" to="/main/postProblem">
                     <el-icon> <UploadFilled /> </el-icon> <span class="iconText">提出反馈</span>
                 </el-menu-item>
-                <el-menu-item index="problemProcess">
-                    <el-icon> <ChatDotSquare /> </el-icon> <span class="iconText">反馈进程</span>
-                </el-menu-item>
-                <el-menu-item index="putProblem">
-                    <el-icon> <EditPen /> </el-icon> <span class="iconText">信息修改</span>
+                <el-menu-item index="/main/problemProcess" to="/main/problemProcess">
+                    <el-icon> <ChatDotSquare /> </el-icon> <span class="iconText">查看反馈</span>
                 </el-menu-item>
             </el-sub-menu>
 
@@ -24,13 +21,10 @@
                 <template #title> 
                     <el-icon> <Avatar /> </el-icon> <span class="iconText">平台管理</span>
                 </template>
-                <el-menu-item index="chatProblem">
+                <el-menu-item index="/main/checkProblem" to="/main/checkProblem">
                     <el-icon> <Search /> </el-icon> <span class="iconText">查看反馈</span>
                 </el-menu-item>
-                <el-menu-item index="putInformation">
-                    <el-icon> <EditPen/> </el-icon> <span class="iconText">信息修改</span>
-                </el-menu-item>
-                <el-menu-item index="manageUser">
+                <el-menu-item index="/main/manageUser" to="/main/manageUser">
                     <el-icon> <Setting /> </el-icon> <span class="iconText">用户管理</span>
                 </el-menu-item>
             </el-sub-menu>
