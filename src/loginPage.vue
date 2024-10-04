@@ -83,7 +83,7 @@ async function login() {
 }
 }
 
-function register() { //注册函数
+async function register() { //注册函数
     if(EmailReg.value === '' || PasswordReg.value === '' || PasswordReg_.value === '' || usernameReg.value === '' || name.value === '') {
         ElMessage.error('请输入完整信息！')   //这些 alert都用elmUI 优化下 但是我不会
     }
@@ -91,11 +91,11 @@ function register() { //注册函数
         ElMessage.error('两次输入的密码不一致！')
     }
     else if(PasswordReg.value.length<8) {
-        ElMessage.error('密码长度不能小于8位！')
+        ElMessage.error('密码长度不能小于8位!')
     }
     else {
         try {
-        const res = postData('/api/user/register', {
+        const res = await postData('/api/user/register', {
             email: EmailReg.value, //邮箱
             password: PasswordReg.value, //密码
             username: usernameReg.value, //学号
@@ -104,12 +104,12 @@ function register() { //注册函数
         console.log(res);
         if(res.code===200) {
             console.log(res.msg)
-            ElMessage.success('注册成功')
+            ElMessage.success('注册成功: 请登入~')
             clear()
             mySwitch()
         }
         else {
-            ElMessage.error('注册失败')
+            ElMessage.error('注册失败: '+res.msg)
         }
     } catch (err) {
         console.log(err);
