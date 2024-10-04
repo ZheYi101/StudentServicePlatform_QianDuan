@@ -52,26 +52,35 @@ function clear() {
   usernameLog.value = ''
   usernameReg.value = ''
 }
-function login() {
+async function login() {
     if(usernameLog.value === '' || PasswordLog.value === '') {
         ElMessage.error('请输入您的账号和密码！') 
         //这里大概就是提示下要输入 alert比较丑 但是我也不知道用啥 建议调一下
     }
     else {
-        let response = postData('/api/user/login', {
-            username: usernameLog.value,
-            password: PasswordLog.value
-        })
-        console.log(response)
-        if(response.data.code === 200) {
-            console.log(response.data.msg)
-            ElMessage.success('登录成功！')
-            router.push('/main')
-        }
-        else {
-            ElMessage.error('后端爆啦！')
-        }
+        try {
+      const res = await postData('/api/user/login', {
+        username: usernameLog.value,
+        password: PasswordLog.value
+      });
+      console.log(res);
+    if(res.code === 200) {
+        ElMessage.success('登录成功');
+      router.push('/main');
+    } 
+    else {
+      if(res.msg === '密码错误') {
+        ElMessage.error('密码错误');
+      }
+      else if(res.msg === "该用户不存在") {
+        ElMessage.error('用户不存在');
+      }
     }
+  } catch (err) {
+    console.log(err);
+    ElMessage.error('后端爆啦');
+  }
+}
 }
 
 function register() { //注册函数
@@ -85,21 +94,26 @@ function register() { //注册函数
         ElMessage.error('密码长度不能小于8位！')
     }
     else {
-        let response = postData('/api/user/register', {
+        try {
+        const res = postData('/api/user/register', {
             email: EmailReg.value, //邮箱
             password: PasswordReg.value, //密码
             username: usernameReg.value, //学号
             name: name.value, //姓名
         });
-        console.log(response.value);
-        if(response.data.code===200) {
-            console.log(response.data.msg)
-            router.push('/main')
-            ElMessage.success('注册成功！')
+        console.log(res);
+        if(res.code===200) {
+            console.log(res.msg)
+            ElMessage.success('注册成功')
+            clear()
+            mySwitch()
         }
         else {
-           ElMessage.error('后端爆啦')
-        
+            ElMessage.error('注册失败')
+        }
+    } catch (err) {
+        console.log(err);
+        ElMessage.error('后端爆啦');
     }
 }
 }
