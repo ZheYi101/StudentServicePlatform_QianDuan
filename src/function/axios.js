@@ -1,21 +1,21 @@
 import axios from 'axios'
 
-export async function getData(url, data) {
-return await axios.get(url,data)
-    .then(response => {
-        // 处理响应
-        if (response.data.code === 200) {
-            console.log("getData成功")
-            // return response.data.data
-        } else {
-            // 发布失败，显示错误消息
-            console.log("getData失败");
-        }
-    })
-    .catch(error => {
-        // 处理错误
-        console.error('后端爆啦:', error);
-    });
+export async function getData(url) {
+  try {
+    const response = await axios.get(url);
+    // 处理响应
+    if (response.data.code === 200) {
+      console.log("getData成功");
+      return response.data; // 返回响应数据
+    } else {
+      console.log(response.data.msg);
+      return response.data; // 返回响应数据
+    }
+  } catch (error) {
+    // 处理错误
+    console.error('后端爆啦:', error);
+    throw error; // 抛出错误以便可以在调用方捕获
+  }
 }
 
 export async function postData(url, data) {
@@ -52,3 +52,23 @@ return await axios.put(url, data)
         });
 }
  
+export async function delData(url,data) {
+  try {
+    console.log(data)
+    console.log(typeof(data.post_id))
+    console.log(typeof(data.user_id))
+    const response = await axios.delete(url,data);
+    // 处理响应
+    if (response.data.code === 200) {
+      console.log("getData成功");
+      return response.data; // 返回响应数据
+    } else {
+      console.log(response.data.msg);
+      return response.data; // 返回响应数据
+    }
+  } catch (error) {
+    // 处理错误
+    console.error('后端爆啦:', error);
+    throw error; // 抛出错误以便可以在调用方捕获
+  }
+}

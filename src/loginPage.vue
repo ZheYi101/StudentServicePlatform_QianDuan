@@ -75,7 +75,7 @@ async function login() {
         imformation.value.phone_num = '未设置'
       }
       localStorage.setItem("imf", JSON.stringify(imformation.value));
-      console.log(imformation.value)
+      console.log(imformation.value.user_type)
       ElMessage.success('登录成功');
       router.push('/main');
     } 
