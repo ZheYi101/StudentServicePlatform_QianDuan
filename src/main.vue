@@ -1,5 +1,19 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import AppAside from './appAside.vue';
+
+function retrieveUserId() {
+  // 提取存储的数组
+  const storedData = localStorage.getItem("imf");
+  if (storedData) {
+    imformation.value = JSON.parse(storedData);
+}
+}
+retrieveUserId()
+
+function test() {
+  console.log(imformation.value)
+}
 
 //void toggleCollapse() {
   //isCollapse.value = !isCollapse.value;
@@ -7,6 +21,10 @@ import AppAside from './appAside.vue';
 
 </script>
 
+
+<script lang="ts">
+export const imformation = ref() //用户信息
+</script>
 <template>
     <div class="common-layout">
       <el-container>
@@ -23,6 +41,7 @@ import AppAside from './appAside.vue';
                 </el-icon>
               </div>
                 <el-scrollbar>
+                  <button @click="test">测试</button>
                   <RouterView />
                 </el-scrollbar>
             </el-main>

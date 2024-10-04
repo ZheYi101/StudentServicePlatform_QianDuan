@@ -5,6 +5,8 @@ import { postData } from './function/axios';
 const router = useRouter()
 import { ElMessage } from 'element-plus';
 
+const imformation = ref() //用户信息
+
 const PasswordLog = ref('')
 const usernameLog = ref('')
 
@@ -65,7 +67,16 @@ async function login() {
       });
       console.log(res);
     if(res.code === 200) {
-        ElMessage.success('登录成功');
+      imformation.value = res.data //获取用户信息
+      if(imformation.value.sex == 0) {
+       imformation.value.sex = '未设置'
+      }
+      if(imformation.value.phone_num == 0) {
+        imformation.value.phone_num = '未设置'
+      }
+      localStorage.setItem("imf", JSON.stringify(imformation.value));
+      console.log(imformation.value)
+      ElMessage.success('登录成功');
       router.push('/main');
     } 
     else {
@@ -119,6 +130,7 @@ async function register() { //注册函数
 }
 
 </script>
+
 
 <template>
 <div class="bigBody">
