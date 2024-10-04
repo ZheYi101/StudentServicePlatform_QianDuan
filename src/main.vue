@@ -25,6 +25,7 @@ function test() {
 <script lang="ts">
 export const imformation = ref() //用户信息
 </script>
+
 <template>
     <div class="common-layout">
       <el-container>
@@ -41,7 +42,6 @@ export const imformation = ref() //用户信息
                 </el-icon>
               </div>
                 <el-scrollbar>
-                  <button @click="test">测试</button>
                   <RouterView />
                 </el-scrollbar>
             </el-main>
@@ -115,7 +115,8 @@ export const imformation = ref() //用户信息
 
 .el-container .el-main {
     margin-left: 200px; 
-    padding-top: 8%; 
+    padding: 0;
+    margin-top: 4%;
     height: calc(100% - 8%); 
     overflow-y: auto; 
     background-repeat: no-repeat;

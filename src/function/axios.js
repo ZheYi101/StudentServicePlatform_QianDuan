@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 export async function getData(url, data) {
 return await axios.get(url,data)
     .then(response => {

@@ -6,5 +6,15 @@ async function getpost() {
 }
 </script>
 <template>
-    <h1>这是提出反馈的界面</h1>
+    <div class="postProblem">
+        我要对你开大了1 
+    </div>
 </template>
+
+<style>
+
+.postProblem {
+    
+}
+
+</style>

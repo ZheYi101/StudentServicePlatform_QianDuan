@@ -3,5 +3,15 @@ import { imformation } from '../src/main.vue';
 
 </script>
 <template>
-    <h1>嗨嗨嗨 这是管理反馈界面</h1>
+    <div class="mainProcess">
+        <h1>查看反馈进程</h1>
+    </div>
 </template>
+
+<style>
+
+.mainProcess {
+    
+}
+
+</style>
