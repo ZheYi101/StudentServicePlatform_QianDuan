@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import { ref, reactive } from 'vue';
 import { imformation } from '../src/main.vue';
 import { putData,getData,delData } from './function/axios';
 
@@ -75,7 +74,6 @@ const formatDateTime = (dateTimeStr) => {
     return `${year}年${month}月${day}日 ${hours}:${minutes}`;
 };
 getFeedback();
-import { putData,getData,delData } from './function/axios';
 const list=ref([])  //反馈列表
 async function getpost() {
     try {
