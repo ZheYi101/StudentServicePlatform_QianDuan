@@ -34,6 +34,15 @@ async function putpost() {  //发帖函数 写个button @click绑定一下
 }
 </script>
 <template>
-    <h1>这是提出反馈的界面</h1>
-    <button @click="putpost">发帖</button>
+    <div class="postProblem">
+        我要对你开大了1 
+    </div>
 </template>
+
+<style>
+
+.postProblem {
+    
+}
+
+</style>
