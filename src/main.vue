@@ -11,9 +11,6 @@ function retrieveUserId() {
 }
 retrieveUserId()
 
-function test() {
-  console.log(imformation.value)
-}
 
 //void toggleCollapse() {
   //isCollapse.value = !isCollapse.value;
@@ -51,7 +48,17 @@ export const imformation = ref() //用户信息
     </div>
   </template>
 
-<style scoped>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgb(233, 238, 243);
+  overflow: hidden;
+}
+
 * {
     padding: 0px;
     margin: 0px;

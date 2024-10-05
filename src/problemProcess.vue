@@ -3,8 +3,18 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { imformation } from '../src/main.vue';
 import { putData,getData,delData } from './function/axios';
+import { ElMessage } from 'element-plus';
 
-const postList = ref([]);
+const postList = ref([]); //反馈列表
+//修改函数相关变量
+const isReview = ref(false) //是否正在修改
+const new_content = ref(null)
+const new_title = ref(null)
+const new_post_type = ref(null)
+const new_is_annoymous = ref(null)
+const new_is_urgent = ref(null)
+
+
 
 // 定义一个映射函数，用于将post_type的数字转换为对应的文字描述
 const typeToText = (type) => {
@@ -82,7 +92,6 @@ async function getpost() {
     if(res.code === 200) {
       console.log('获取成功');
       list.value = res.data.post_list
-      console.log(list.value)
     } 
     else {
         console.log(res.msg);
@@ -95,12 +104,30 @@ async function getpost() {
 getpost()
 
 
-//用post_list.user_id和imformation.user_id比较 如果相等就是当前登录的用户 就可以修改
 //修改函数如下:
+async function re() {
+    isReview.value = !isReview.value
+}
 async function reversepost(post_id,is_annoymous,is_urgent,post_type,title,content) { 
     //这里需要从帖子那里获取 
     //post_id is_annoymous is_urgent post_type title content
     try {
+        isReview.value = !isReview.value
+        if(new_is_annoymous!=null) {
+        is_annoymous = new_is_annoymous.value
+        }
+        if(new_is_urgent!=null) {
+            is_urgent = new_is_urgent.value
+        }
+        if(new_post_type!=null) {
+            post_type = new_post_type.value
+        }
+        if(new_title!=null) {
+            title = new_title.value
+        }
+        if(new_content!=null) {
+            content = new_content.value
+        }
     const res = await putData('/api/student/post',{
         user_id: imformation.value.user_id, //这个不用管 我已经搞好了
         post_id: post_id,  //需要从函数传入 不需要修改 这个是帖子的id
@@ -125,13 +152,12 @@ async function reversepost(post_id,is_annoymous,is_urgent,post_type,title,conten
 
 //删除帖子函数如下
 async function delpost(post_id) { 
-    //这里需要从帖子那里获取 
-    //post_id is_annoymous is_urgent post_type title content
     try {
-        console.log('user_id:'+imformation.value.user_id)
+        console.log(typeof(imformation.value.user_id))
+        console.log(typeof(post_id))
     const res = await delData('/api/student/post',{
         user_id: imformation.value.user_id, //这个不用管 我已经搞好了
-        post_id: 1,  //需要从函数传入 不需要修改 这个是帖子的id
+        post_id: post_id,  //帖子的id
     });
     console.log(res);
   if(res.code === 200) {
@@ -145,12 +171,14 @@ async function delpost(post_id) {
     ElMessage.error('后端爆啦');
   }
 }
-
 </script>
 
 <template>
     <div class="problemProcess">
         <div v-for="post in postList" :key="post.post_id" class="post">
+            <div class="user">
+                ID:{{ post.user_id }}
+            </div> <!-- 头像+用户名 -->
             <h2 style="text-align: center;font-size: 30px;">
                 {{ post.title }}
                 <span style="font-size: 16px;margin-left: 1px;color:" :style="{ color: typeToColor(post.post_type) }">
@@ -178,6 +206,12 @@ async function delpost(post_id) {
                  {{ statusToTextAndColor(post.status).text }}</span></p>
             <p style="text-align: end;">反馈时间：{{ formatDateTime(post.post_time) }}</p>
             <br>
+            <div class="buttonForm" v-if="post.user_id === imformation.user_id">
+                <el-button type="primary" @click="re()" v-if="isReview===false">修改</el-button>
+                <el-button type="warning" @click="re()"v-if="isReview===true">取消</el-button>
+                <el-button type="success" @click="reversepost(post.post_id,post.is_anonymous,post.is_urgent,post.post_type,post.title,post.content)" v-if="isReview===true">提交</el-button>
+                <el-button type="danger" @click="delpost(post.post_id)">删除</el-button>
+            </div>
         </div>
     </div>
 </template>

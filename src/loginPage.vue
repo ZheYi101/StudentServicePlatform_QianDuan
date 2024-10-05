@@ -5,6 +5,8 @@ import { postData } from './function/axios';
 const router = useRouter()
 import { ElMessage } from 'element-plus';
 
+const code=ref('') //验证码的英文是 code 说是
+
 const imformation = ref() //用户信息
 
 const PasswordLog = ref('')
@@ -111,6 +113,7 @@ async function register() { //注册函数
             password: PasswordReg.value, //密码
             username: usernameReg.value, //学号
             name: name.value, //姓名
+            code: code.value, //验证码
         });
         console.log(res);
         if(res.code===200) {
@@ -129,6 +132,23 @@ async function register() { //注册函数
 }
 }
 
+async function getCode() { //获取验证码
+    try {
+      const res = await postData('/api/user/send_code',{
+        email: EmailReg.value
+      });
+      console.log(res);
+      if(res.code === 200) {
+        code.value = res.data.code
+      }
+      else {
+        ElMessage.error('获取失败: '+res.msg)
+        console.log(res.msg);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 </script>
 
 
@@ -155,6 +175,10 @@ async function register() { //注册函数
         <input v-model="name" placeholder="请输入您的姓名" clearable/>
         <input v-model="PasswordReg" type="password" placeholder="请输入您想设置的密码" show-password/>
         <input v-model="PasswordReg_" type="password" placeholder="请确认您的密码" show-password/>
+        <div class="code">
+          <input v-model="code" placeholder="请输入验证码" clearable/>
+          <el-button style="height: 38px;width: 75px;background-color: rgb(211, 211, 211);" @click="getCode()">获取</el-button>
+        </div>
       </div>
       <div class="buttonForm">
         <el-button type="warning" @click="register()">注册</el-button>
@@ -178,7 +202,7 @@ async function register() { //注册函数
 </div>
 </template>
 
-<style>
+<style> 
 html,body {
     display: flex;
     height: 100vh;
@@ -337,6 +361,12 @@ input:focus::placeholder {
     height: 30px;
     line-height: 30px;
     font-size: 14px;
+}
+
+.code {
+  display: flex;
+  justify-content: center;
+  align-items: start;
 }
 
 </style>

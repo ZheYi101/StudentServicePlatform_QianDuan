@@ -21,9 +21,10 @@ function sub() {
 <template>
   <div class="user-center">
     <h1 style="font-size: 40px; display: flex ;justify-content: center">WELCOME TO CHECK YOUR INFORMATION</h1>
+    <div class="img" >
+      <h1>头像</h1>
+    </div>
     <div class="information" >
-<!-- 目前还没写具体的功能 如果要改的话你也可以把这些html的全都删了重写 但是imformation的值就是这六个
-我打算把修改功能做成 每一个信息右边都有一个 "修改" 按钮 按了就会把当前这一个信息从显示值变为输入框 -->
       <h1>学号：{{ imformation.username }}</h1>
       <h1>姓名：{{ imformation.name }}</h1>
       <h1>性别： {{ imformation.sex }} </h1>
@@ -49,4 +50,15 @@ function sub() {
   font-size: 21px;
 }
 
+.img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1%;
+}
+
+h1 {
+  font-size: 30px;
+  font-weight: bold;
+}
 </style>
