@@ -72,3 +72,23 @@ export async function delData(url,data) {
     throw error; // 抛出错误以便可以在调用方捕获
   }
 }
+
+export async function getData2(url,params) {
+  try {
+    const response = await axios.get(url,{
+      params:params
+    });
+    // 处理响应
+    if (response.data.code === 200) {
+      console.log("getFile成功");
+      return response.data; // 返回响应数据
+    } else {
+      console.log(response.data.msg);
+      return response.data; // 返回响应数据
+    }
+  } catch (error) {
+    // 处理错误
+    console.error('后端爆啦:', error);
+    throw error; // 抛出错误以便可以在调用方捕获
+  }
+}
