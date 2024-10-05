@@ -56,6 +56,7 @@ export async function putData(url, data) {
  
 export async function delData(url,data) {
   try {
+    console.log(data)
     const response = await axios.delete(url,data);
     // 处理响应
     if (response.data.code === 200) {
