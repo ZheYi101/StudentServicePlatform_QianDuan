@@ -203,14 +203,7 @@ async function getCode() { //获取验证码
 </template>
 
 <style> 
-html,body {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-    margin: 0;
-    background: linear-gradient(to right,gray,white);
-    overflow-x: hidden;
-}
+
 
 #app {
   margin: 0;
@@ -230,6 +223,9 @@ html,body {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    display: flex;
+    background: linear-gradient(to right,gray,white);
+    overflow-x: hidden;
 } 
 
 .loginRegisterMain {
