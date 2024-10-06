@@ -11,14 +11,25 @@ const status = ref(1) //处理状态
 function re() {
     res.value = !res.value
 }
+
+function clear() {
+    status.value = 1
+    respon.value = null
+    res.value = true
+}
 async function rev(post_id) {
+    console.log(post_id)
+    console.log(status.value)
+    console.log(respon.value)
+    console.log(respon.value)
     try {
         const res = await postData('/api/admin/handlepost',{
             admin_id: imformation.value.user_id,
             post_id: post_id,
-            status: status,
+            status: status.value,
             response: respon.value
         });
+        clear()
         await getpost() 
     if(res.code === 200) {
       console.log('处理成功');
@@ -26,6 +37,7 @@ async function rev(post_id) {
     } 
     else {
         console.log(res.msg);
+        ElMessage.error('处理失败:'+res.msg);
     }
   } catch (err) {
     console.log(err);
