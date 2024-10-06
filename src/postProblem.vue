@@ -4,8 +4,8 @@ import { imformation } from '../src/main.vue';
 import { postData } from './function/axios';
 import { ElMessage } from 'element-plus';
 //以下为反馈的参数
-const is_annoymous = ref(0) //这个写个二选一的checkbox 不匿名是0 匿名是1 注意数据类型是 integer
-const is_urgent=ref(0)  //同上 数据类型也是integer
+const is_annoymous = ref(null) //这个写个二选一的checkbox 不匿名是0 匿名是1 注意数据类型是 integer
+const is_urgent=ref(null)  //同上 数据类型也是integer
 const post_type=ref()  //同上 但是四选一 数据类型也是integer
 //input integer 的写法是  <input v-model="usernameLog" type="number"
 const title=ref('') //string 反馈标题
@@ -17,15 +17,19 @@ async function putpost() {  //发帖函数 写个button @click绑定一下
       else if(post_type.value != 1 && post_type.value != 2 && post_type.value != 3 && post_type.value != 4) {
         ElMessage.error('请选择反馈类型！')
       }
+      else if(is_urgent.value != 0 && is_urgent.value != 1) {
+        ElMessage.error('请选择是否紧急！')
+      }
+      else if(is_annoymous.value != 0 && is_annoymous.value != 1) {
+        ElMessage.error('请选择是否匿名！')
+      }
       else { 
         post_type.value = Number(post_type.value)
         is_annoymous.value = Number(is_annoymous.value)
         is_urgent.value = Number(is_urgent.value)
       try {
-        console.log('post_type的数据类型 '+typeof(post_type.value))
           console.log(is_annoymous.value)
           console.log(is_urgent.value)
-          console.log(post_type.value)
         const res = await postData('/api/student/post',{
             user_id: imformation.value.user_id,
             name: imformation.value.name,
@@ -37,11 +41,11 @@ async function putpost() {  //发帖函数 写个button @click绑定一下
         });
         console.log(res);
       if(res.code === 200) {
-        ElMessage.success('发帖成功');
+        ElMessage.success('反馈成功');
         clear()
       } 
       else {
-        ElMessage.error('发帖失败:'+res.msg);
+        ElMessage.error('反馈失败:'+res.msg);
         clear()
       }
     } catch (err) {
