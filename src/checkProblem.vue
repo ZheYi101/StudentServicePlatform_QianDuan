@@ -1,109 +1,120 @@
-
 <script setup>
-import { imformation } from '../src/main.vue';
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus';
-import { getData2,postData } from './function/axios';
+import { getData2, postData } from './function/axios';
+import { imformation } from '../src/main.vue';
 
+const postList = ref([]); // 反馈列表
+const res = ref(true);  // 是否正在处理
+const respon = ref(null);  // 处理内容
+const status = ref(1); // 处理状态
+const response_rating = ref(1)
 
-const postList = ref([]); //反馈列表
-const res = ref(true)  //是否正在处理
-const respon = ref(null)  //处理内容
-const status = ref(1) //处理状态
+// 格式化日期时间的方法
+const formatPostTime = (dateTimeStr) => {
+    const date = new Date(dateTimeStr);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    // const seconds = String(date.getSeconds()).padStart(2, '0'); // 如果需要秒数
+
+    return `${year}年${month}月${day}日${hours}:${minutes}`; // 如果需要小时和分钟
+};
+
 function re() {
-    res.value = !res.value
+    res.value = !res.value;
 }
 
 function clear() {
-    status.value = 1
-    respon.value = null
-    res.value = true
+    status.value = 1;
+    respon.value = null;
+    res.value = true;
 }
+
 async function rev(post_id) {
-    console.log(post_id)
-    console.log(status.value)
-    console.log(respon.value)
-    console.log(respon.value)
+    console.log(post_id);
+    console.log(status.value);
+    console.log(respon.value);
     try {
-        const res = await postData('/api/admin/handlepost',{
+        const res = await postData('/api/admin/handlepost', {
             admin_id: imformation.value.user_id,
             post_id: post_id,
             status: status.value,
             response: respon.value
         });
-        clear()
-        await getpost() 
-    if(res.code === 200) {
-      ElMessage.success('处理成功');
-    } 
-    else {
-        console.log(res.msg);
-        ElMessage.error('处理失败:'+res.msg);
+        clear();
+        await getpost();
+        if (res.code === 200) {
+            ElMessage.success('处理成功');
+        } else {
+            console.log(res.msg);
+            ElMessage.error('处理失败:' + res.msg);
+        }
+    } catch (err) {
+        ElMessage.error('后端爆啦');
+        console.log(err);
     }
-  } catch (err) {
-    ElMessage.error('后端爆啦');
-    console.log(err)
-  }
 }
+
 async function getpost() {
     try {
-      const res = await getData2('/api/admin/handlepost',{
-        admin_id: imformation.value.user_id
-      });
-    //   console.log(res);
-    if(res.code === 200) {
-      console.log('获取成功');
-      postList.value = res.data.post_list
-    //   console.log(postList.value)
-    } 
-    else {
-        console.log(res.msg);
+        const res = await getData2('/api/admin/handlepost', {
+            admin_id: imformation.value.user_id
+        });
+        if (res.code === 200) {
+            console.log('获取成功');
+            postList.value = res.data.post_list;
+        } else {
+            console.log(res.msg);
+        }
+    } catch (err) {
+        console.log(err);
+        ElMessage.error('后端爆啦');
     }
-  } catch (err) {
-    console.log(err);
-    ElMessage.error('后端爆啦');
-  }
 }
-getpost()
 
+getpost();
 </script>
+
 <template>
     <div class="mainProcess">
-        <h1>查看反馈进程</h1>
+        <h2>查看反馈进程</h2>
         <div v-for="post in postList" :key="post.post_id" class="post">
             <h1>标题：{{ post.title }}</h1>
             <p>内容：{{ post.content }}</p>
-            <p>反馈时间：{{ post.post_time }}</p>
-            <p>回复时间：{{ post.response_time }}</p>
-            <p>回复评分：{{ post.response_rating }}</p>
-            <div class="我不知道">
-              <!-- 搞个单选 勾了就是垃圾信息 没勾就正常信息 -->
-              <el-radio-group v-model="radio1">
-                <el-radio value="2" size="large">Option 1</el-radio>
-              </el-radio-group>
-            </div>
-            <el-button @click="re()" v-if="res===false">处理</el-button>
-            <!-- 这里写一下处理相关的输入框啥的 已经写了的显然是我瞎jb写的
-            输入框绑定的变量啥的你应该看得懂 看不懂叫我 -->
-            <!-- 这一整页就一个rev(post_id)函数需要搞 -->
-            <el-button @click="re()" v-if="res===true">取消</el-button> 
-            <input type="text" v-if="res" v-model="respon" placeholder="请输入处理内容"/>
+            <p>反馈时间：{{ formatPostTime(post.post_time) }}</p>
+            <p>评分：{{ post.response_rating }} <span>
+              <el-input-number v-model="response_rating" :min="1" :max="4"> <template #suffix> <span>RMB</span> </template> </el-input-number>
+            </span></p><br>          
             <el-button type="primary" @click="rev(post.post_id)" v-if="res===true">提交</el-button>
         </div>
     </div>
 </template>
 
-
-
 <style>
-
-
-.post {
-    margin-bottom: 20px;
-    margin-left: 15px;
-    margin-right: 15px;
+.mainProcess {
+  align-items: flex-start;
+  height: auto;
+  width: 66%;
+  background-color: #ffffff;
+  overflow-y: auto; 
+  margin-left: 13vw;
 }
-
+.mainProcess h2 {
+  font-size: 3vw;
+  text-align: center;
+}
+.post {
+    padding: 10px;
+    padding-right: 20px;
+    margin-bottom: 25px;
+    margin-right: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 p {
     line-height: 30px;
     font-size: 14px;

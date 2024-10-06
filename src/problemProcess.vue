@@ -83,7 +83,7 @@ const formatDateTime = (dateTimeStr) => {
     const minutes = String(date.getMinutes()).padStart(2, '0');
     // const seconds = String(date.getSeconds()).padStart(2, '0'); // 如果需要秒数
 
-    return `${year}年${month}月${day}日 ${hours}:${minutes}`; // 如果需要小时和分钟
+    return `${year}年${month}月${day}日${hours}:${minutes}`; // 如果需要小时和分钟
 };
 getFeedback();
 // const list=ref([])  //反馈列表
@@ -152,6 +152,18 @@ async function reversepost(post_id,is_annoymous,is_urgent,post_type,title,conten
   }
 }
 
+const formatResponseTime = (dateTimeStr) => {
+    const date = new Date(dateTimeStr);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    // const seconds = String(date.getSeconds()).padStart(2, '0'); // 如果需要秒数
+
+    return `${year}年${month}月${day}日 ${hours}:${minutes}`; // 如果需要小时和分钟
+};
+
 //删除帖子函数如下
 async function delpost(user_id,post_id) { 
     try {
@@ -203,9 +215,9 @@ async function delpost(user_id,post_id) {
                     </span>
             </p><br>
             <div v-if="post.showReply">
-                <p>管理员回复: {{ post.response }}</p>
-                <p>回复评分: {{ post.response_rating }}</p>
-                <p>回复时间: {{ post.response_time }}</p>
+                <p>管理员回复： {{ post.response }}</p>
+                <p>回复评分：{{ post.response_rating }}</p>
+                <p>回复时间： {{ formatResponseTime(post.response_time) }}</p>
             </div>
             <p>状态：<span :style="{ color: statusToTextAndColor(post.status).color }">
                  {{ statusToTextAndColor(post.status).text }}</span></p>
