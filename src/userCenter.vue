@@ -1,10 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'  //router
 import { imformation } from '../src/main.vue';
 import { ElButton } from 'element-plus';
 import { putData } from './function/axios';
 import { ElMessage } from 'element-plus';
+import { Plus } from '@element-plus/icons-vue'
+import type { UploadProps } from 'element-plus'
 const router = useRouter()
 const res = ref(true)
 
@@ -31,6 +33,7 @@ function re2() {
   }else {
     change2.value = true
     }
+    change1.value = true
     change3.value = true
     change4.value = true    
     change5.value = true
@@ -100,12 +103,44 @@ async function sub() {
     ElMessage.error('后端爆啦');
   }
 }
+
+
+//图片上传相关代码
+const imageUrl = ref('')
+
+const handleAvatarSuccess: UploadProps['onSuccess'] = (
+  response,
+  uploadFile
+) => {
+  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+}
+
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
+    ElMessage.error('只支持上传jpg/png文件哦~')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('只允许上传2MB以内的图片')
+    return false
+  }
+  return true
+}
 </script>
 <template>
   <div class="user-center">
     <h1 style="font-size: 40px; display: flex ;justify-content: center">WELCOME TO CHECK YOUR INFORMATION</h1>
     <div class="img" >
       <h1>头像</h1>
+        <el-upload
+              class="avatar-uploader"
+              action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+            >
+              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+              <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+        </el-upload>
     </div>
     <div class="information" >
       <div class="details">
@@ -162,6 +197,7 @@ async function sub() {
 
 .img {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 1%;
@@ -177,5 +213,34 @@ h1 {
   justify-content: center;
   align-items: center;
   margin-top: 1%;
+}
+
+.avatar-uploader .avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+</style>
+
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
 }
 </style>

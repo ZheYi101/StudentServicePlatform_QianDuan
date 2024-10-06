@@ -7,34 +7,28 @@ import { getData2,postData } from './function/axios';
 const postList = ref([]); //反馈列表
 const res = ref(true)  //是否正在处理
 const respon = ref(null)  //处理内容
-
+const status = ref(1) //处理状态
 function re() {
     res.value = !res.value
 }
-async function rev(post_id,status) {
+async function rev(post_id) {
     try {
-        console.log(typeof(imformation.value.user_id))
-        console.log(typeof(post_id))
-        console.log(typeof(status))
-        console.log(typeof(respon.value))
         const res = await postData('/api/admin/handlepost',{
             admin_id: imformation.value.user_id,
             post_id: post_id,
             status: status,
             response: respon.value
         });
-    //   console.log(res);
+        await getpost() 
     if(res.code === 200) {
-      console.log('获取成功');
+      console.log('处理成功');
       postList.value = res.data.post_list
-    //   console.log(postList.value)
     } 
     else {
         console.log(res.msg);
     }
   } catch (err) {
     console.log(err);
-    ElMessage.error('后端爆啦');
   }
 }
 async function getpost() {
@@ -57,6 +51,7 @@ async function getpost() {
   }
 }
 getpost()
+
 </script>
 <template>
     <div class="mainProcess">
@@ -64,15 +59,22 @@ getpost()
         <div v-for="post in postList" :key="post.post_id" class="post">
             <h1>标题：{{ post.title }}</h1>
             <p>内容：{{ post.content }}</p>
-            <p>状态：{{ post.status }}</p>
             <p>反馈时间：{{ post.post_time }}</p>
             <p>回复时间：{{ post.response_time }}</p>
             <p>回复评分：{{ post.response_rating }}</p>
-            <p>是否已处理：{{ post.approval }}</p>
+            <div class="我不知道">
+              <!-- 搞个单选 勾了就是垃圾信息 没勾就正常信息 -->
+              <el-radio-group v-model="radio1">
+                <el-radio value="2" size="large">Option 1</el-radio>
+              </el-radio-group>
+            </div>
             <el-button @click="re()" v-if="res===false">处理</el-button>
-            <el-button @click="re()" v-if="res===true">取消</el-button>
+            <!-- 这里写一下处理相关的输入框啥的 已经写了的显然是我瞎jb写的
+            输入框绑定的变量啥的你应该看得懂 看不懂叫我 -->
+            <!-- 这一整页就一个rev(post_id)函数需要搞 -->
+            <el-button @click="re()" v-if="res===true">取消</el-button> 
             <input type="text" v-if="res" v-model="respon" placeholder="请输入处理内容"/>
-            <el-button type="primary" @click="rev(post.post_id,post.status)" v-if="res===true">提交</el-button>
+            <el-button type="primary" @click="rev(post.post_id)" v-if="res===true">提交</el-button>
         </div>
     </div>
 </template>
@@ -81,13 +83,17 @@ getpost()
 
 <style>
 
-.mainProcess {
-    
-}
 
 .post {
     margin-bottom: 20px;
     margin-left: 15px;
     margin-right: 15px;
+}
+
+p {
+    line-height: 30px;
+    font-size: 14px;
+    color: black;
+    font-weight: bold;
 }
 </style>
