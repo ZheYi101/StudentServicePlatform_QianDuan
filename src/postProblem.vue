@@ -28,6 +28,7 @@ async function putpost() {  //发帖函数 写个button @click绑定一下
           console.log(post_type.value)
         const res = await postData('/api/student/post',{
             user_id: imformation.value.user_id,
+            name: imformation.value.name,
             is_anonymous: is_annoymous.value,
             is_urgent: is_urgent.value,
             post_type: post_type.value,

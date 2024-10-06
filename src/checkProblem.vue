@@ -1,8 +1,10 @@
+
 <script setup>
 import { imformation } from '../src/main.vue';
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import { getData2,postData } from './function/axios';
+
 
 const postList = ref([]); //反馈列表
 const res = ref(true)  //是否正在处理
@@ -32,15 +34,15 @@ async function rev(post_id) {
         clear()
         await getpost() 
     if(res.code === 200) {
-      console.log('处理成功');
-      postList.value = res.data.post_list
+      ElMessage.success('处理成功');
     } 
     else {
         console.log(res.msg);
         ElMessage.error('处理失败:'+res.msg);
     }
   } catch (err) {
-    console.log(err);
+    ElMessage.error('后端爆啦');
+    console.log(err)
   }
 }
 async function getpost() {

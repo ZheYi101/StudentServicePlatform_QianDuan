@@ -6,6 +6,8 @@ import postProblem from '../postProblem.vue';
 import problemProcess from '../problemProcess.vue';
 import checkProblem from '../checkProblem.vue';
 import manageUser from '../manageUser.vue';
+import YourCheck from '../YourCheck.vue';
+import Rubbish from '../rubbish.vue';
 
 const routes = [
   {
@@ -53,6 +55,16 @@ const routes = [
         path: 'manageUser',
         component: manageUser,
         name: "manageUser",
+      },
+      {
+        path: 'YourCheck',
+        component: YourCheck,
+        name: "YourCheck",
+      },
+      {
+        path: 'rubbish',
+        component: Rubbish,
+        name: "rubbish",
       },
     ],
   }
