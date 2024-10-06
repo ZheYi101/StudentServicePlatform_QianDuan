@@ -61,10 +61,10 @@ function clear() {
 
 <template>
     <div class="postProblem">
-        <div class="inputForm">
-          <el-input v-model="textarea" style="width: 240px":rows="2" type="textarea" placeholder="Please input"/>
-            <input v-model="title" type="text" placeholder="反馈标题"/>
-            <input v-model="content" type="text" placeholder="反馈内容" style="height: 80px;"/>
+      <h1>请提交您的问题反馈</h1>
+        <div class="inputForm">         
+          <el-input v-model="title" style="max-width: 18vw;"><template #prepend>反馈标题</template></el-input><br>
+          <el-input v-model="content" maxlength="30" style="width: 300px" placeholder="反馈内容" show-word-limit type="textarea"/>
             <div class="urgentButtonForm">
               <el-radio-group v-model="is_urgent">
                 <el-radio value="1" size="large">紧急</el-radio>
@@ -85,26 +85,39 @@ function clear() {
             </div>
             </div>  
         </div>
+        <h2>我们将认真对待您的反馈，请耐心等待我们的回复！</h2>
     </div>
 </template>
 
 <style scoped>
 
 .postProblem {
+    margin-top: 10%;
     margin-left: 10%;
-    align-items: center;
-    height: auto;
+    height: 70vh;
     width: 80%;
     background-color: #ffffff;
     overflow-y: auto; 
 }
 
+.postProblem h1 {
+  margin-top: 3vh;
+  text-align: center;
+  font-size: 2vw;
+}
+
+.postProblem h2 {
+  margin-top: 1vh;
+  text-align: center;
+  font-size: 2vw;
+}
+
 .inputForm {
-    margin-top: 50px;
+    margin-top: 15vh;
+    line-height: 5vh;
     margin-left: 200px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     flex-grow: 1;
 }
 
