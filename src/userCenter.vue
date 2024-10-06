@@ -183,47 +183,54 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
       <div class="details">
         <h1>学号：</h1><h1 v-if="change1">{{ imformation.username }}</h1>
         <input type="text" v-else v-model="new_username" placeholder="请输入新的学号"/>
-        <el-button type="primary" @click="re1()" v-if="change1">修改</el-button>
-        <el-button type="warning" @click="re1()"v-if="change1===false">取消</el-button>
-        <el-button type="success" @click="sub()" v-if="change1===false">提交</el-button>
+        <el-button type="primary" @click="re1()" v-if="change1"class="changeButton">修改</el-button>
+        <el-button type="warning" @click="re1()"v-if="change1===false"class="changeButton">取消</el-button>
+        <el-button type="success" @click="sub()" v-if="change1===false"class="changeButton">提交</el-button>
       </div>
       <div class="details">
       <h1>姓名：</h1><h1 v-if="change2">{{ imformation.name }}</h1>
       <input type="text" v-else v-model="new_name" placeholder="请输入新的姓名"/>
-      <el-button type="primary" @click="re2()" v-if="change2">修改</el-button>
-      <el-button type="warning" @click="re2()"v-if="change2===false">取消</el-button>
-      <el-button type="success" @click="sub()" v-if="change2===false">提交</el-button>
+      <el-button type="primary" @click="re2()" v-if="change2"class="changeButton">修改</el-button>
+      <el-button type="warning" @click="re2()"v-if="change2===false"class="changeButton">取消</el-button>
+      <el-button type="success" @click="sub()" v-if="change2===false"class="changeButton">提交</el-button>
       </div>
       <div class="details">
       <h1>性别：</h1><h1 v-if="change3"> {{ imformation.sex }} </h1>
       <input type="text" v-else v-model="new_sex" placeholder="请输入新的性别"/>
-      <el-button type="primary" @click="re3()" v-if="change3">修改</el-button>
-    <el-button type="warning" @click="re3()"v-if="change3===false">取消</el-button>
-    <el-button type="success" @click="sub()" v-if="change3===false">提交</el-button>
+      <el-button type="primary" @click="re3()" v-if="change3"class="changeButton">修改</el-button>
+    <el-button type="warning" @click="re3()"v-if="change3===false"class="changeButton">取消</el-button>
+    <el-button type="success" @click="sub()" v-if="change3===false"class="changeButton">提交</el-button>
       </div>
       <div class="details">
       <h1>电话：</h1><h1 v-if="change4">{{ imformation.phone_num }}</h1>
       <input type="text" v-else v-model="new_phone_num" placeholder="请输入新的电话"/>
-      <el-button type="primary" @click="re4()" v-if="change4">修改</el-button>
-      <el-button type="warning" @click="re4()"v-if="change4===false">取消</el-button>
-      <el-button type="success" @click="sub()" v-if="change4===false">提交</el-button>
+      <el-button type="primary" @click="re4()" v-if="change4"class="changeButton">修改</el-button>
+      <el-button type="warning" @click="re4()"v-if="change4===false"class="changeButton">取消</el-button>
+      <el-button type="success" @click="sub()" v-if="change4===false"class="changeButton">提交</el-button>
       </div>
       <div class="details">
-      <h1>密码：</h1><h1 v-if="change5">不许看不许看不许看</h1>
+      <h1>密码：</h1><h1 v-if="change5">******</h1>
       <input type="text" v-else v-model="new_phone_num" placeholder="请输入新的密码"/>
-      <el-button type="primary" @click="re5()" v-if="change5">修改</el-button>
-      <el-button type="warning" @click="re5()"v-if="change5===false">取消</el-button>
-      <el-button type="success" @click="sub()" v-if="change5===false">提交</el-button>
+      <el-button type="primary" @click="re5()" v-if="change5"class="changeButton">修改</el-button>
+      <el-button type="warning" @click="re5()"v-if="change5===false"class="changeButton">取消</el-button>
+      <el-button type="success" @click="sub()" v-if="change5===false"class="changeButton">提交</el-button>
       </div>
+      <h1 v-if="reing"><br><br><br></h1>
       <div class="details">
         <h1 v-if="reing">请入输原密码</h1>
       <input type="text" v-if="reing" v-model="password" placeholder="请输入原密码"/>
       </div>
     </div>
+    <h2>请确认无误后修改！！！</h2>
   </div>
 </template>
 
 <style scoped>
+
+input {
+  height: 30px;
+  margin-right: 3vw;
+}
 
 .information {
   display: flex;
@@ -234,6 +241,8 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 
 .information h1 {
   font-size: 21px;
+  text-align: start;
+  margin-right: 15px;
 }
 
 .img {
@@ -251,9 +260,10 @@ h1 {
 
 .details {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   margin-top: 1%;
+  margin-left: 40%;
 }
 
 .avatar-uploader .avatar {
@@ -280,8 +290,23 @@ h1 {
 .el-icon.avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
-  width: 178px;
-  height: 178px;
+  width: 8vw;
+  height: 13.6vh;
   text-align: center;
+}
+
+.user-center {
+    margin-left: 10%;
+    height: 90vh;
+    width: 80%;
+    background-color: #ffffff;
+    overflow-y: auto;
+}
+
+.user-center h2 {
+    color: rgb(253, 6, 6);
+    font-size: 25px;
+    text-align: center;
+    margin-top: 10vh;
 }
 </style>
