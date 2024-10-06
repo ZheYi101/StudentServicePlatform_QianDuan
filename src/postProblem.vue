@@ -41,6 +41,7 @@ async function putpost() {  //发帖函数 写个button @click绑定一下
       } 
       else {
         ElMessage.error('发帖失败:'+res.msg);
+        clear()
       }
     } catch (err) {
       console.log(err);

@@ -60,7 +60,8 @@ function getFeedback() {
     })
     .then(response => {
         if (response.data.code === 200) {
-            postList.value = response.data.data.post_list.map(p => ({
+            console.log(response.data.data)
+            postList.value = response.data.data.map(p => ({
                 ...p,
                 showReply: false // 初始化时隐藏回复框
             }));
@@ -84,24 +85,24 @@ const formatDateTime = (dateTimeStr) => {
     return `${year}年${month}月${day}日 ${hours}:${minutes}`;
 };
 getFeedback();
-const list=ref([])  //反馈列表
-async function getpost() {
-    try {
-      const res = await getData('/api/student/post');
-    //   console.log(res);
-    if(res.code === 200) {
-      console.log('获取成功');
-      list.value = res.data.post_list
-    } 
-    else {
-        console.log(res.msg);
-    }
-  } catch (err) {
-    console.log(err);
-    ElMessage.error('后端爆啦');
-  }
-}
-getpost()
+// const list=ref([])  //反馈列表
+// async function getpost() {
+//     try {
+//       const res = await getData('/api/student/post');
+//     //   console.log(res);
+//     if(res.code === 200) {
+//       console.log('获取成功');
+//       list.value = res.data.post_list
+//     } 
+//     else {
+//         console.log(res.msg);
+//     }
+//   } catch (err) {
+//     console.log(err);
+//     ElMessage.error('后端爆啦');
+//   }
+// }
+// getpost()
 
 
 //修改函数如下:
@@ -151,12 +152,12 @@ async function reversepost(post_id,is_annoymous,is_urgent,post_type,title,conten
 }
 
 //删除帖子函数如下
-async function delpost(post_id) { 
+async function delpost(user_id,post_id) { 
     try {
         console.log(typeof(imformation.value.user_id))
         console.log(typeof(post_id))
     const res = await delData('/api/student/post',{
-        user_id: imformation.value.user_id, //这个不用管 我已经搞好了
+        user_id: user_id, 
         post_id: post_id,  //帖子的id
     });
     console.log(res);
@@ -210,7 +211,7 @@ async function delpost(post_id) {
                 <el-button type="primary" @click="re()" v-if="isReview===false">修改</el-button>
                 <el-button type="warning" @click="re()"v-if="isReview===true">取消</el-button>
                 <el-button type="success" @click="reversepost(post.post_id,post.is_anonymous,post.is_urgent,post.post_type,post.title,post.content)" v-if="isReview===true">提交</el-button>
-                <el-button type="danger" @click="delpost(post.post_id)">删除</el-button>
+                <el-button type="danger" @click="delpost(post.user_id,post.post_id)">删除</el-button>
             </div>
         </div>
     </div>

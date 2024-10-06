@@ -15,11 +15,17 @@ const new_name = ref(null)
 const new_sex = ref(null)
 const new_phone_num = ref(null)
 const new_email = ref(null)
+const password = ref(null)
+const new_password = ref(null)
+const reing = ref(false)
 function re1() {
+  clear()
   if(change1.value) {
     change1.value = false
+    reing.value = true
   }else {
     change1.value = true
+    reing.value = false
     }
     change2.value = true
     change3.value = true
@@ -28,10 +34,13 @@ function re1() {
 }
 
 function re2() {
+  clear()
   if(change2.value) {
     change2.value = false
+    reing.value = true
   }else {
     change2.value = true
+    reing.value = false
     }
     change1.value = true
     change3.value = true
@@ -40,10 +49,13 @@ function re2() {
 }
 
 function re3() {
+  clear()
   if(change3.value) {
     change3.value = false
+    reing.value = true
   }else {
     change3.value = true
+    reing.value = false
     }
     change1.value = true
     change2.value = true
@@ -52,10 +64,13 @@ function re3() {
 }
 
 function re4() {
+    clear()
   if(change4.value) {
     change4.value = false
+    reing.value = true
   }else {
     change4.value = true
+    reing.value = false
     }
     change1.value = true
     change2.value = true
@@ -64,10 +79,13 @@ function re4() {
 }
 
 function re5() {
+  clear()
   if(change5.value) {
     change5.value = false
+    reing.value = true
   }else {
     change5.value = true
+    reing.value = false
     }
     change1.value = true
     change2.value = true
@@ -79,6 +97,16 @@ const change2 = ref(true)
 const change3 = ref(true)
 const change4 = ref(true)
 const change5 = ref(true)
+function clear() {
+  new_username.value = null
+  new_name.value = null
+  new_sex.value = null
+  new_phone_num.value = null
+  new_email.value = null
+  password.value = null
+  new_password.value = null
+  reing.value = false
+}
 async function sub() {
   try {
     new_username.value = Number(new_username.value)
@@ -89,7 +117,9 @@ async function sub() {
       name: change2.value ? imformation.value.name : new_name.value,
       sex: change3.value ? imformation.value.sex : new_sex.value,
       phone_num: change4.value ? imformation.value.phone_num : new_phone_num.value,
-      email: change5.value ? imformation.value.email : new_email.value
+      email: imformation.value.email,
+      origin_password: password.value,
+      new_password: change5.value ? imformation.value.password : new_password.value,
     });
     console.log(res);
   if(res.code === 200) {
@@ -172,11 +202,15 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
       <el-button type="success" @click="sub()" v-if="change4===false">提交</el-button>
       </div>
       <div class="details">
-      <h1>邮箱：</h1><h1 v-if="change5">{{ imformation.email }}</h1>
-      <input type="text" v-else v-model="new_email" placeholder="请输入新的邮箱"/>
+      <h1>密码：</h1><h1 v-if="change5">不许看不许看不许看</h1>
+      <input type="text" v-else v-model="new_phone_num" placeholder="请输入新的密码"/>
       <el-button type="primary" @click="re5()" v-if="change5">修改</el-button>
       <el-button type="warning" @click="re5()"v-if="change5===false">取消</el-button>
       <el-button type="success" @click="sub()" v-if="change5===false">提交</el-button>
+      </div>
+      <div class="details">
+        <h1 v-if="reing">请输入原密码</h1>
+      <input type="text" v-if="reing" v-model="password" placeholder="请输入原密码"/>
       </div>
     </div>
   </div>
