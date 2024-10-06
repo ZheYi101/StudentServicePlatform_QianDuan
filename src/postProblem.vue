@@ -65,18 +65,24 @@ function clear() {
           <el-input v-model="textarea" style="width: 240px":rows="2" type="textarea" placeholder="Please input"/>
             <input v-model="title" type="text" placeholder="反馈标题"/>
             <input v-model="content" type="text" placeholder="反馈内容" style="height: 80px;"/>
-            <div class="buttonForm">
-              <input type="radio" v-model="is_anonymous" value="1">
-              <label for="is_anonymous">匿名</label>
-              <input type="radio" v-model="is_urgent" value="1">
-              <label for="is_urgent">紧急</label>
-              <el-select v-model="post_type" placeholder="请选择反馈类型">
-                <el-option label="水电类" value='1'></el-option>
-                <el-option label="泥土类" value='2'></el-option>
-                <el-option label="通讯类" value='3'></el-option>
-                <el-option label="园林绿化类" value='4'></el-option>
-              </el-select>
-              <el-button type="primary" @click="putpost()" style="margin-top: 5px;">发布</el-button>
+            <div class="urgentButtonForm">
+              <el-radio-group v-model="is_urgent">
+                <el-radio value="1" size="large">紧急</el-radio>
+                <el-radio value="0" size="large">非紧急</el-radio>
+              </el-radio-group>
+              <el-radio-group v-model="is_annoymous" style="margin-left: 100px;">
+                <el-radio value="1" size="large">匿名</el-radio>
+                <el-radio value="0" size="large">实名</el-radio>
+              </el-radio-group><br>
+              <div>
+                <el-select v-model="post_type" placeholder="请选择反馈类型" style="width: 100px;">
+                  <el-option label="水电类" value='1'></el-option>
+                  <el-option label="泥土类" value='2'></el-option>
+                  <el-option label="通讯类" value='3'></el-option>
+                  <el-option label="园林绿化类" value='4'></el-option>
+                </el-select>
+                <el-button type="primary" @click="putpost()" style="margin-top: 5px; margin-left: 19px; margin-bottom: 5px;">发布</el-button>
+            </div>
             </div>  
         </div>
     </div>
@@ -88,7 +94,7 @@ function clear() {
     margin-left: 10%;
     align-items: center;
     height: auto;
-    width: 75%;
+    width: 80%;
     background-color: #ffffff;
     overflow-y: auto; 
 }
@@ -111,4 +117,5 @@ input {
     border: 1px solid #b0cfe9;
     border-radius: 4px;
 } 
+
 </style>
