@@ -59,52 +59,77 @@ function clear() {
   post_type.value = null
 }
 </script>
+
 <template>
     <div class="postProblem">
-        <h1>提出反馈</h1>
-        <div class="inputForm">
-            <input v-model="title" type="text" placeholder="反馈标题"/>
-            <input v-model="content" type="text" placeholder="反馈内容"/>
-            <div class="buttonForm">
-              <input type="checkbox" v-model="is_annoymous" value=1>
-              <label for="is_annoymous">匿名</label>
-              <input type="checkbox" v-model="is_urgent" value=1>
-              <label for="is_urgent">紧急</label>
-              <el-select v-model="post_type" placeholder="请选择反馈类型">
-                <el-option label="水电类" value='1'></el-option>
-                <el-option label="泥土类" value='2'></el-option>
-                <el-option label="通讯类" value='3'></el-option>
-                <el-option label="园林绿化类" value='4'></el-option>
-              </el-select>
-              <el-button type="primary" @click="putpost()">发布</el-button>
+      <h1>请提交您的问题反馈</h1>
+        <div class="inputForm">         
+          <el-input v-model="title" style="max-width: 18vw;"><template #prepend>反馈标题</template></el-input><br>
+          <el-input v-model="content" maxlength="30" style="width: 300px" placeholder="反馈内容" show-word-limit type="textarea"/>
+            <div class="urgentButtonForm">
+              <el-radio-group v-model="is_urgent">
+                <el-radio value="1" size="large">紧急</el-radio>
+                <el-radio value="0" size="large">非紧急</el-radio>
+              </el-radio-group>
+              <el-radio-group v-model="is_annoymous" style="margin-left: 100px;">
+                <el-radio value="1" size="large">匿名</el-radio>
+                <el-radio value="0" size="large">实名</el-radio>
+              </el-radio-group><br>
+              <div>
+                <el-select v-model="post_type" placeholder="请选择反馈类型" style="width: 100px;">
+                  <el-option label="水电类" value='1'></el-option>
+                  <el-option label="泥土类" value='2'></el-option>
+                  <el-option label="通讯类" value='3'></el-option>
+                  <el-option label="园林绿化类" value='4'></el-option>
+                </el-select>
+                <el-button type="primary" @click="putpost()" style="margin-top: 5px; margin-left: 19px; margin-bottom: 5px;">发布</el-button>
+            </div>
             </div>  
         </div>
+        <h2>我们将认真对待您的反馈，请耐心等待我们的回复！</h2>
     </div>
 </template>
 
-<style>
+<style scoped>
 
 .postProblem {
-    align-items: flex-start;
-    height: auto;
-    width: 66%;
+    margin-top: 10%;
+    margin-left: 10%;
+    height: 70vh;
+    width: 80%;
     background-color: #ffffff;
-    overflow-y: auto;
+    overflow-y: auto; 
+}
+
+.postProblem h1 {
+  margin-top: 3vh;
+  text-align: center;
+  font-size: 2vw;
+}
+
+.postProblem h2 {
+  margin-top: 1vh;
+  text-align: center;
+  font-size: 2vw;
 }
 
 .inputForm {
+    margin-top: 15vh;
+    line-height: 5vh;
+    margin-left: 200px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     flex-grow: 1;
 }
 
 input {
     width: 60%;
     height: 40px;
+    max-width: 60%;
     margin-bottom: 20px;
     text-indent: 4px;
     border: 1px solid #b0cfe9;
     border-radius: 4px;
 } 
+
 </style>
