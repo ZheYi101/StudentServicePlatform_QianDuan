@@ -25,13 +25,13 @@
                     <el-icon> <Search /> </el-icon> <span class="iconText">查看反馈</span>
                 </el-menu-item>
                 <el-menu-item index="/main/YourCheck" to="/main/YourCheck">
-                    <el-icon> <Setting /> </el-icon> <span class="iconText">你的接单</span>
+                    <el-icon> <List /> </el-icon> <span class="iconText">你的接单</span>
                 </el-menu-item>
                 <el-menu-item index="/main/rubbish" to="/main/rubbish">
-                    <el-icon> <Setting /> </el-icon> <span class="iconText">垃圾反馈</span>
+                    <el-icon> <WarningFilled /> </el-icon> <span class="iconText">垃圾反馈</span>
                 </el-menu-item>
                 <el-menu-item index="/main/manageUser" to="/main/manageUser">
-                    <el-icon> <Setting /> </el-icon> <span class="iconText">用户管理</span>
+                    <el-icon> <View /> </el-icon> <span class="iconText">用户管理</span>
                 </el-menu-item>
             </el-sub-menu>
         </el-menu>

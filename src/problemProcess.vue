@@ -14,7 +14,22 @@ const new_post_type = ref(null)
 const new_is_annoymous = ref(null)
 const new_is_urgent = ref(null)
 
+const openEditDialog = (post) => {
+    post.isEditing = true;
+    post.editTitle = post.title;
+    post.editContent = post.content;
+};
 
+const updatePost = async (post) => {
+    post.title = post.editTitle;
+    post.content = post.editContent;
+    post.isEditing = false;
+    await reversepost(post.post_id, post.is_anonymous, post.is_urgent, post.post_type, post.title, post.content);
+};
+
+const issReview = (post) => {
+    return post.isEditing;
+};
 
 // 定义一个映射函数，用于将post_type的数字转换为对应的文字描述
 const typeToText = (type) => {
@@ -190,7 +205,7 @@ async function delpost(user_id,post_id) {
         <div v-for="post in postList" :key="post.post_id" class="post">
             <div class="user">
                 ID:{{ post.user_id }}
-            </div> <!-- 头像+用户名 -->
+            </div>
             <h2 style="text-align: center;font-size: 30px;">
                 {{ post.title }}
                 <span style="font-size: 16px;margin-left: 1px;color:" :style="{ color: typeToColor(post.post_type) }">
@@ -224,10 +239,22 @@ async function delpost(user_id,post_id) {
             <p style="text-align: end;">反馈时间：{{ formatDateTime(post.post_time) }}</p>
             <br>
             <div class="buttonForm" v-if="post.user_id === imformation.user_id">
-                <el-button type="primary" @click="re()" v-if="isReview===false">修改</el-button>
-                <el-button type="warning" @click="re()"v-if="isReview===true">取消</el-button>
-                <el-button type="success" @click="reversepost(post.post_id,post.is_anonymous,post.is_urgent,post.post_type,post.title,post.content)" v-if="isReview===true">提交</el-button>
-                <el-button type="danger" @click="delpost(post.user_id,post.post_id)">删除</el-button>
+                <el-button type="text" icon="Edit" @click="openEditDialog(post)" v-if="!issReview(post)">修改</el-button>
+                <el-button type="text" icon="Delete" @click="delpost(post.user_id,post.post_id)">删除</el-button>
+                <el-dialog :visible.sync="post.isEditing" title="修改帖子">
+                    <el-form>
+                        <el-form-item label="标题">
+                            <el-input v-model="post.editTitle"></el-input>
+                        </el-form-item>
+                        <el-form-item label="内容">
+                            <el-input type="textarea" v-model="post.editContent"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button icon="CloseBold" @click="post.isEditing = false">取消</el-button>
+                        <el-button type="primary" icon="Edit" @click="updatePost(post)">提交</el-button>
+                    </span>
+                </el-dialog>
             </div>
         </div>
     </div>
