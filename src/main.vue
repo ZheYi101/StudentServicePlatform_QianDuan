@@ -114,7 +114,7 @@ body {
     width: 200px; 
     height: calc(100% - 8%); 
     background-color: #f4f6f9;
-    margin-top: 4%; 
+    margin-top: 3.5%; 
     position: fixed; 
     left: 0;
     z-index: 1020; 
@@ -123,7 +123,7 @@ body {
 .el-container .el-main {
     margin-left: 200px; 
     padding: 0;
-    margin-top: 4%;
+    margin-top: 3.5%;
     height: calc(100% - 8%); 
     overflow-y: auto; 
     background-repeat: no-repeat;

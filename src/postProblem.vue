@@ -57,16 +57,17 @@ function clear() {
   post_type.value = null
 }
 </script>
+
 <template>
     <div class="postProblem">
-        <h1>提出反馈</h1>
         <div class="inputForm">
+          <el-input v-model="textarea" style="width: 240px":rows="2" type="textarea" placeholder="Please input"/>
             <input v-model="title" type="text" placeholder="反馈标题"/>
-            <input v-model="content" type="text" placeholder="反馈内容"/>
+            <input v-model="content" type="text" placeholder="反馈内容" style="height: 80px;"/>
             <div class="buttonForm">
-              <input type="checkbox" v-model="is_annoymous" value=1>
-              <label for="is_annoymous">匿名</label>
-              <input type="checkbox" v-model="is_urgent" value=1>
+              <input type="radio" v-model="is_anonymous" value="1">
+              <label for="is_anonymous">匿名</label>
+              <input type="radio" v-model="is_urgent" value="1">
               <label for="is_urgent">紧急</label>
               <el-select v-model="post_type" placeholder="请选择反馈类型">
                 <el-option label="水电类" value='1'></el-option>
@@ -74,32 +75,36 @@ function clear() {
                 <el-option label="通讯类" value='3'></el-option>
                 <el-option label="园林绿化类" value='4'></el-option>
               </el-select>
-              <el-button type="primary" @click="putpost()">发布</el-button>
+              <el-button type="primary" @click="putpost()" style="margin-top: 5px;">发布</el-button>
             </div>  
         </div>
     </div>
 </template>
 
-<style>
+<style scoped>
 
 .postProblem {
-    align-items: flex-start;
+    margin-left: 10%;
+    align-items: center;
     height: auto;
-    width: 66%;
+    width: 75%;
     background-color: #ffffff;
-    overflow-y: auto;
+    overflow-y: auto; 
 }
 
 .inputForm {
+    margin-top: 50px;
+    margin-left: 200px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     flex-grow: 1;
 }
 
 input {
     width: 60%;
     height: 40px;
+    max-width: 60%;
     margin-bottom: 20px;
     text-indent: 4px;
     border: 1px solid #b0cfe9;
