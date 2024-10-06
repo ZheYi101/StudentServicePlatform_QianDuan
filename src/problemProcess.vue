@@ -77,12 +77,13 @@ function getFeedback() {
 const formatDateTime = (dateTimeStr) => {
     const date = new Date(dateTimeStr);
     const year = date.getFullYear();
-    const month = (date.getMonth() + 1);
-    const day = date.getDate();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds(); //精确到秒 暂时不调用
-    return `${year}年${month}月${day}日 ${hours}:${minutes}`;
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份是从0开始的，所以+1
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    // const seconds = String(date.getSeconds()).padStart(2, '0'); // 如果需要秒数
+
+    return `${year}年${month}月${day}日 ${hours}:${minutes}`; // 如果需要小时和分钟
 };
 getFeedback();
 // const list=ref([])  //反馈列表
@@ -185,7 +186,6 @@ async function delpost(user_id,post_id) {
                 <span style="font-size: 16px;margin-left: 1px;color:" :style="{ color: typeToColor(post.post_type) }">
                     {{ typeToText(post.post_type) }}
                 </span>    
-                <span style="font-size: 16px;margin-left: 18px">Id: {{ post.user_id }}</span>
             </h2>
             <p>{{ post.content }}</p>
             <p style="margin-top: 20px;">
@@ -194,15 +194,21 @@ async function delpost(user_id,post_id) {
                         <el-icon style="font-size: 28px;color: #1772f6;"><CaretTop /></el-icon>赞同
                     </span>
                     <el-icon 
-                        style="font-size: 28px;color: #758195; margin-left: 50px;"
+                        style="font-size: 28px;color: #758195; margin-left: 80px;"
                         @click="toggleReplyBox(post)"><ChatRound /></el-icon>查看回复
+                    <el-icon 
+                        style="font-size: 28px;color: #758195; margin-left: 25px;"
+                        @click=""><Star /></el-icon>收藏
+                    <el-icon 
+                        style="font-size: 28px;color: #758195; margin-left: 25px;"
+                        @click=""><Promotion /></el-icon>分享
                     </span>
             </p><br>
             <div v-if="post.showReply">
                 <p>管理员回复: {{ post.response }}</p>
                 <p>回复评分: {{ post.response_rating }}</p>
                 <p>回复时间: {{ post.response_time }}</p>
-            </div><br>
+            </div>
             <p>状态：<span :style="{ color: statusToTextAndColor(post.status).color }">
                  {{ statusToTextAndColor(post.status).text }}</span></p>
             <p style="text-align: end;">反馈时间：{{ formatDateTime(post.post_time) }}</p>
@@ -224,11 +230,16 @@ async function delpost(user_id,post_id) {
     width: 66%;
     background-color: #ffffff;
     overflow-y: auto; 
+    margin-left: 13vw;
 }
 .post {
-    margin-bottom: 20px;
-    margin-left: 15px;
+    padding: 10px;
+    padding-right: 20px;
+    margin-bottom: 25px;
     margin-right: 15px;
+    padding-bottom: 10px; /* 增加底部内边距 */
+    border-bottom: 1px solid #e0e0e0; /* 添加下边框 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
 }
 
 .iconText {
