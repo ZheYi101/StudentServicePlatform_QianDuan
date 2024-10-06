@@ -108,11 +108,17 @@ function clear() {
   reing.value = false
 }
 async function sub() {
+  if(password.value === null) {
+    ElMessage.error('请验证密码')
+  }
+  else {
+    if(imformation.value.phone_num=="未设置") {
+      imformation.value.phone_num = 0
+    }
   try {
     new_username.value = Number(new_username.value)
     new_phone_num.value = Number(new_phone_num.value)
     const res = await putData('/api/user/update',{
-      user_id: imformation.value.user_id,
       username: change1.value ? imformation.value.username : new_username.value,
       name: change2.value ? imformation.value.name : new_name.value,
       sex: change3.value ? imformation.value.sex : new_sex.value,
@@ -131,6 +137,7 @@ async function sub() {
 } catch (err) {
     console.log(err);
     ElMessage.error('后端爆啦');
+  }
   }
 }
 
@@ -209,7 +216,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
       <el-button type="success" @click="sub()" v-if="change5===false">提交</el-button>
       </div>
       <div class="details">
-        <h1 v-if="reing">请输入原密码</h1>
+        <h1 v-if="reing">请入输原密码</h1>
       <input type="text" v-if="reing" v-model="password" placeholder="请输入原密码"/>
       </div>
     </div>

@@ -155,13 +155,11 @@ async function reversepost(post_id,is_annoymous,is_urgent,post_type,title,conten
 //删除帖子函数如下
 async function delpost(user_id,post_id) { 
     try {
-        console.log(typeof(imformation.value.user_id))
-        console.log(typeof(post_id))
     const res = await delData('/api/student/post',{
         user_id: user_id, 
         post_id: post_id,  //帖子的id
     });
-    console.log(res);
+    await getFeedback()
   if(res.code === 200) {
     ElMessage.success('删除成功');
   } 
