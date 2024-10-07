@@ -6,10 +6,8 @@ import { imformation } from '../src/main.vue';
 
 const postList = ref([]); // 反馈列表
 const res = ref(true);  // 是否正在处理
-const respon = ref(null);  // 处理内容
 const status = ref(1); // 处理状态
 const response_rating = ref(1)
-
 // 格式化日期时间的方法
 const formatPostTime = (dateTimeStr) => {
     const date = new Date(dateTimeStr);
@@ -29,20 +27,16 @@ function re() {
 
 function clear() {
     status.value = 1;
-    respon.value = null;
     res.value = true;
 }
 
-async function rev(post_id) {
-    console.log(post_id);
-    console.log(status.value);
-    console.log(respon.value);
+async function rev(post_id, comment) {
     try {
         const res = await postData('/api/admin/handlepost', {
             admin_id: imformation.value.user_id,
             post_id: post_id,
             status: status.value,
-            response: respon.value
+            response: comment
         });
         clear();
         await getpost();
@@ -85,10 +79,10 @@ getpost();
             <h1>标题：{{ post.title }}</h1>
             <p>内容：{{ post.content }}</p>
             <p>反馈时间：{{ formatPostTime(post.post_time) }}</p>
-            <p>评分：{{ post.response_rating }} <span>
-              <el-input-number v-model="response_rating" :min="1" :max="4"> <template #suffix> <span>RMB</span> </template> </el-input-number>
+            <p><span>
+            <el-input v-model="post.comments" placeholder="请输入回复"></el-input>
             </span></p><br>          
-            <el-button type="primary" @click="rev(post.post_id)" v-if="res===true">提交</el-button>
+            <el-button type="primary" @click="rev(post.post_id,post.comments)" v-if="res===true">提交</el-button>
         </div>
     </div>
 </template>
