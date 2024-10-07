@@ -269,8 +269,8 @@ const submitUpload = () => {
       <el-button type="success" @click="sub()" v-if="change4===false"class="changeButton">提交</el-button>
       </div>
       <div class="details">
-      <h1>密码：</h1><h1 v-if="change5">******</h1>
-      <input type="text" v-else v-model="new_password" placeholder="请输入新的密码"/>
+      <h1>密码：</h1><h1 v-if="change5">*******</h1>
+      <input type="text" v-else v-model="new_phone_num" placeholder="请输入新的密码"/>
       <el-button type="primary" @click="re5()" v-if="change5"class="changeButton">修改</el-button>
       <el-button type="warning" @click="re5()"v-if="change5===false"class="changeButton">取消</el-button>
       <el-button type="success" @click="sub()" v-if="change5===false"class="changeButton">提交</el-button>

@@ -74,13 +74,40 @@ async function getpost() {
 }
 
 getpost();
+
+// 定义一个映射函数，用于将post_type的数字转换为对应的文字描述
+const typeToText = (type) => {
+    const types = {
+        1: '水电类',
+        2: '泥土类',
+        3: '通讯类',
+        4: '园林绿化类'
+    };
+    return types[type] || '未知类型'; // 如果没有匹配的类型，返回'未知类型'
+};
+
+// 定义一个函数，用于获取每种类型对应的颜色
+const typeToColor = (type) => {
+    const colors = {
+        1: 'skyblue', // 水电类
+        2: 'saddlebrown', // 泥土类
+        3: 'gray', // 通讯类
+        4: 'green' // 园林绿化类
+    };
+    return colors[type] || 'black'; // 如果没有匹配的类型，返回黑色
+};
 </script>
 
 <template>
     <div class="mainProcess">
         <h2>查看反馈进程</h2>
         <div v-for="post in postList" :key="post.post_id" class="post">
-            <h1>标题：{{ post.title }}</h1>
+            <h1>标题：{{ post.title }}
+                <span style="font-size: 16px;margin-left: 1px;color:red" v-if="post.is_urgent=='1'">紧急</span>
+                <span style="font-size: 16px;margin-left: 1px;color:" :style="{ color: typeToColor(post.post_type) }">
+                    {{ typeToText(post.post_type) }}
+                </span>
+            </h1>
             <p>内容：{{ post.content }}</p>
             <p>反馈时间：{{ formatPostTime(post.post_time) }}</p>
             <p>

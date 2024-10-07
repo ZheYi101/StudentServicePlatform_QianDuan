@@ -6,13 +6,7 @@ import { putData,getData,delData } from './function/axios';
 import { ElMessage } from 'element-plus';
 
 const postList = ref([]); //反馈列表
-//修改函数相关变量
-const isReview = ref(false) //是否正在修改
-const new_content = ref(null)
-const new_title = ref(null)
-const new_post_type = ref(null)
-const new_is_annoymous = ref(null)
-const new_is_urgent = ref(null)
+
 
 const openEditDialog = (post) => {
     post.isEditing = true;
@@ -27,9 +21,6 @@ const updatePost = async (post) => {
     await reversepost(post.post_id, post.is_anonymous, post.is_urgent, post.post_type, post.title, post.content);
 };
 
-const issReview = (post) => {
-    return post.isEditing;
-};
 
 // 定义一个映射函数，用于将post_type的数字转换为对应的文字描述
 const typeToText = (type) => {
@@ -101,71 +92,6 @@ const formatDateTime = (dateTimeStr) => {
     return `${year}年${month}月${day}日${hours}:${minutes}`; // 如果需要小时和分钟
 };
 getFeedback();
-// const list=ref([])  //反馈列表
-// async function getpost() {
-//     try {
-//       const res = await getData('/api/student/post');
-//     //   console.log(res);
-//     if(res.code === 200) {
-//       console.log('获取成功');
-//       list.value = res.data.post_list
-//     } 
-//     else {
-//         console.log(res.msg);
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     ElMessage.error('后端爆啦');
-//   }
-// }
-// getpost()
-
-
-//修改函数如下:
-async function re() {
-    isReview.value = !isReview.value
-}
-async function reversepost(post_id,is_annoymous,is_urgent,post_type,title,content) { 
-    //这里需要从帖子那里获取 
-    //post_id is_annoymous is_urgent post_type title content
-    try {
-        isReview.value = !isReview.value
-        if(new_is_annoymous!=null) {
-        is_annoymous = new_is_annoymous.value
-        }
-        if(new_is_urgent!=null) {
-            is_urgent = new_is_urgent.value
-        }
-        if(new_post_type!=null) {
-            post_type = new_post_type.value
-        }
-        if(new_title!=null) {
-            title = new_title.value
-        }
-        if(new_content!=null) {
-            content = new_content.value
-        }
-    const res = await putData('/api/student/post',{
-        user_id: imformation.value.user_id, //这个不用管 我已经搞好了
-        post_id: post_id,  //需要从函数传入 不需要修改 这个是帖子的id
-        is_anonymous: is_annoymous, //需要从函数传入 并且设置可以修改
-        is_urgent: is_urgent, //需要从函数传入 并且设置可以修改
-        post_type: post_type, //同上
-        title: title, //同上
-        content: content  //同上
-    });
-    console.log(res);
-  if(res.code === 200) {
-    ElMessage.success('修改成功');
-  } 
-  else {
-    ElMessage.error('修改失败:'+res.msg);
-  }
-} catch (err) {
-    console.log(err);
-    ElMessage.error('后端爆啦');
-  }
-}
 
 const formatResponseTime = (dateTimeStr) => {
     const date = new Date(dateTimeStr);
@@ -178,41 +104,23 @@ const formatResponseTime = (dateTimeStr) => {
 
     return `${year}年${month}月${day}日 ${hours}:${minutes}`; // 如果需要小时和分钟
 };
-
-//删除帖子函数如下
-async function delpost(user_id,post_id) { 
-    try {
-    const res = await delData('/api/student/post',{
-        user_id: user_id, 
-        post_id: post_id,  //帖子的id
-    });
-    await getFeedback()
-  if(res.code === 200) {
-    ElMessage.success('删除成功');
-  } 
-  else {
-    ElMessage.error('删除失败:'+res.msg);
-  }
-} catch (err) {
-    console.log(err);
-    ElMessage.error('后端爆啦');
-  }
-}
 </script>
 
 <template>
     <div class="problemProcess">
         <div v-for="post in postList" :key="post.post_id" class="post">
-            <div class="user">
-                ID:{{ post.user_id }}
+            <div class="user" >
+                <h1 v-if="post.is_anonymous=='0'">用户:{{ post.name }}</h1>
+                <h1 v-else>匿名用户</h1>
             </div>
             <h2 style="text-align: center;font-size: 30px;">
                 {{ post.title }}
+                <span style="font-size: 16px;margin-left: 1px;color:red" v-if="post.is_urgent=='1'">紧急</span>
                 <span style="font-size: 16px;margin-left: 1px;color:" :style="{ color: typeToColor(post.post_type) }">
                     {{ typeToText(post.post_type) }}
                 </span>    
-            </h2>
-            <p>{{ post.content }}</p>
+            </h2><br><br>
+                <h2>内容:{{ post.content }}</h2>
             <p style="margin-top: 20px;">
                 <span class="iconText">               
                     <span class="iconText" style="background: #dceafe;width: auto;padding: 3px 20px 3px 12px;">
@@ -231,31 +139,14 @@ async function delpost(user_id,post_id) {
             </p><br>
             <div v-if="post.showReply">
                 <p>管理员回复： {{ post.response }}</p>
-                <p>回复评分：{{ post.response_rating }}</p>
+                <p v-if="post.response_rating!='0'">回复评分：{{ post.response_rating }}</p>
+                <p v-else>回复评分：尚未评价</p>
                 <p>回复时间： {{ formatResponseTime(post.response_time) }}</p>
             </div>
             <p>状态：<span :style="{ color: statusToTextAndColor(post.status).color }">
                  {{ statusToTextAndColor(post.status).text }}</span></p>
             <p style="text-align: end;">反馈时间：{{ formatDateTime(post.post_time) }}</p>
             <br>
-            <div class="buttonForm" v-if="post.user_id === imformation.user_id">
-                <el-button type="text" icon="Edit" @click="openEditDialog(post)" v-if="!issReview(post)">修改</el-button>
-                <el-button type="text" icon="Delete" @click="delpost(post.user_id,post.post_id)">删除</el-button>
-                <el-dialog :visible.sync="post.isEditing" title="修改帖子">
-                    <el-form>
-                        <el-form-item label="标题">
-                            <el-input v-model="post.editTitle"></el-input>
-                        </el-form-item>
-                        <el-form-item label="内容">
-                            <el-input type="textarea" v-model="post.editContent"></el-input>
-                        </el-form-item>
-                    </el-form>
-                    <span slot="footer" class="dialog-footer">
-                        <el-button icon="CloseBold" @click="post.isEditing = false">取消</el-button>
-                        <el-button type="primary" icon="Edit" @click="updatePost(post)">提交</el-button>
-                    </span>
-                </el-dialog>
-            </div>
         </div>
     </div>
 </template>
@@ -285,5 +176,15 @@ async function delpost(user_id,post_id) {
 }
 .iconText el-icon {
     margin-right: 5px; /* 图标右侧间距 */
+}
+
+h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+p {
+    font-size: 15px;
+    margin-bottom: 5px;
 }
 </style>
