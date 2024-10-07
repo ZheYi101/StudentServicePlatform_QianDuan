@@ -8,7 +8,7 @@ import checkProblem from '../checkProblem.vue';
 import manageUser from '../manageUser.vue';
 import YourCheck from '../YourCheck.vue';
 import Rubbish from '../rubbish.vue';
-
+import MyPromblem from '../MyPromblem.vue';
 const routes = [
   {
     path: "/",
@@ -66,6 +66,11 @@ const routes = [
         component: Rubbish,
         name: "rubbish",
       },
+      {
+        path: 'MyPromblem',
+        component: MyPromblem,
+        name: "MyPromblem",
+      }
     ],
   }
 ];

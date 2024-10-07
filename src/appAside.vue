@@ -8,8 +8,11 @@
                 <el-menu-item index="/main/postProblem" to="/main/postProblem">
                     <el-icon> <UploadFilled /> </el-icon> <span class="iconText">提出反馈</span>
                 </el-menu-item>
+                <el-menu-item index="/main/MyPromblem" to="/main/MyPromblem">
+                    <el-icon> <Star /> </el-icon> <span class="iconText">我的反馈</span>
+                </el-menu-item>
                 <el-menu-item index="/main/problemProcess" to="/main/problemProcess">
-                    <el-icon> <ChatDotSquare /> </el-icon> <span class="iconText">查看反馈</span>
+                    <el-icon> <ChatDotSquare /> </el-icon> <span class="iconText">所有反馈</span>
                 </el-menu-item>
             </el-sub-menu>
 
