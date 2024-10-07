@@ -5,8 +5,10 @@ import { imformation } from '../src/main.vue';
 import { ElButton } from 'element-plus';
 import { postData, putData } from './function/axios';
 import { ElMessage } from 'element-plus';
-import { Plus } from '@element-plus/icons-vue'
-import type { UploadProps } from 'element-plus'
+import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
+import { ElUpload } from 'element-plus'
+import { genFileId } from 'element-plus'
+
 const router = useRouter()
 const res = ref(true)
 
@@ -172,46 +174,75 @@ async function login() {
 }
 
 //图片上传相关代码
-const imageUrl = ref('')
+const upload = ref<UploadInstance>()
 
-const handleAvatarSuccess: UploadProps['onSuccess'] = (
-  response,
-  uploadFile
-) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+const handleExceed: UploadProps['onExceed'] = (files) => {
+  upload.value!.clearFiles()
+  const file = files[0] as UploadRawFile
+  file.uid = genFileId()
+  upload.value!.handleStart(file)
 }
 
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
   if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
-    ElMessage.error('只支持上传jpg/png文件哦~')
+    ElMessage.error('Avatar picture must be JPG or PNG format!')
     return false
   } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('只允许上传2MB以内的图片')
+    ElMessage.error('Avatar picture size can not exceed 2MB!')
     return false
   }
   return true
+}
+
+const handleSuccess = (response) => {
+  ElMessage.success('Upload successful!')
+  console.log('Upload successful!', response)
+}
+
+const handleError = () => {
+  ElMessage.error('Upload failed!')
+}
+
+const submitUpload = () => {
+  upload.value!.submit()
 }
 </script>
 <template>
   <div class="user-center">
     <h1 style="font-size: 40px; display: flex ;justify-content: center">WELCOME TO CHECK YOUR INFORMATION</h1>
-    <div class="img" >
-      <h1>头像</h1>
-        <el-upload
-              class="avatar-uploader"
-              action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-            >
-              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-              <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-        </el-upload>
+    <div class="img">
+      <el-upload
+    ref="upload"
+    class="upload-demo"
+    action="/api/upload/image"
+    :limit="1"
+    :on-exceed="handleExceed"
+    :auto-upload="false"
+    :before-upload="beforeUpload"
+    :on-success="handleSuccess"
+    :on-error="handleError"
+    list-type="picture-card"
+  >    
+    <template #tip>
+      <div class="el-upload__tip text-red">
+        只能jpg,png
+      </div>
+    </template>
+    <div class="img-button">
+      <br><br><br><br><br><br><br><br><br>
+      <el-button class="ml-3" type="success" @click="submitUpload">
+        上传
+      </el-button>
+    </div>
+    <template #file="{ file }">
+      <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+    </template>
+  </el-upload>
     </div>
     <div class="information" >
       <div class="details">
         <h1>学号：</h1><h1 v-if="change1">{{ imformation.username }}</h1>
-        <input type="text" v-else v-model="new_username" placeholder="请输入新的学号"/>
+        <input  type="text"  v-else v-model="new_username" placeholder="请输入新的学号"/>
         <el-button type="primary" @click="re1()" v-if="change1"class="changeButton">修改</el-button>
         <el-button type="warning" @click="re1()"v-if="change1===false"class="changeButton">取消</el-button>
         <el-button type="success" @click="sub()" v-if="change1===false"class="changeButton">提交</el-button>
@@ -282,6 +313,7 @@ input {
   margin-top: 1%;
 }
 
+
 h1 {
   font-size: 30px;
   font-weight: bold;
@@ -322,6 +354,7 @@ h1 {
   width: 8vw;
   height: 13.6vh;
   text-align: center;
+  max-width: 50px;
 }
 
 .user-center {
