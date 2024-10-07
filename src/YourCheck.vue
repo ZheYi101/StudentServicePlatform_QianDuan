@@ -18,7 +18,7 @@ const formatDateTime = (dateString) => {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false
-  });
+  }).replace(/(\d{4}-\d{2}-\d{2})\s(\d{2}:\d{2}):\d{2}/, '$1 $2');
 };
 
 async function get() {
@@ -92,17 +92,16 @@ async function rewrite(post_id) {
 <template>
   <div class="yourCheck">
     <div v-for="post in postList" :key="post.post_id" class="postC">
-        <h1>标题：{{ post.title }}</h1>
+        <h1 style="text-align: center; font-size: 30px;">标题：{{ post.title }}</h1>
         <p>内容：{{ post.content }}</p>
         <p>反馈时间：{{ formatDateTime(post.post_time) }}</p>
-        <p>回复时间：{{ post.response_time }}</p>
-        <p>回复评分：{{ post.response_rating }}</p>
+        <p>回复时间：{{ formatDateTime(post.updated_post) }}</p>
+        <p>回复评分：{{ post.status }}</p>
         <div class="我不知道">
         </div>
         <el-button type="primary" @click="rewritePre(post.post_id)">修改</el-button>
-        <el-input v-model="input" style="width: 240px;margin-left: 10px;" placeholder="请输入修改内容"  v-if="isChange"/> 
-         <!-- input改为修改内容的变量 加一个函数点击确定修改向后端发post -->
-        <el-button type="success" style="margin-left: 10px;" v-if="isChange">确定修改</el-button>
+        <el-input v-model="respon" style="width: 240px;margin-left: 10px;" placeholder="请输入修改内容"  v-if="isChange"/> 
+        <el-button type="success" style="margin-left: 10px;" v-if="isChange" @click="rewrite(post.post_id)">确定修改</el-button>
         <br><br>
         <el-button type="danger" @click="re(post.post_id)">撤销</el-button>
     </div>
@@ -111,7 +110,7 @@ async function rewrite(post_id) {
 
 <style scoped>
 .postC {
-    padding-bottom: 10px;
+    padding: 10px;
     border-bottom: 1px solid #e0e0e0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background: #ffffff;
