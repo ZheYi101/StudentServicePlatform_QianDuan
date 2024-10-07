@@ -6,6 +6,20 @@ import { delData2, getData2,putData } from './function/axios';
 const res = ref(true)
 const postList = ref([])
 const respon = ref("null")  //处理内容
+
+// 添加日期格式化函数
+const formatDateTime = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleString('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  });
+};
+
 async function get() {
     try {
       const res = await getData2('/api/admin/handlepost/getall',{
@@ -71,17 +85,30 @@ async function rewrite(post_id) {
 }
 </script>
 <template>
-    你的接单
-    <div v-for="post in postList" :key="post.post_id" class="post">
+  <div class="yourCheck">
+    <div v-for="post in postList" :key="post.post_id" class="postC">
         <h1>标题：{{ post.title }}</h1>
         <p>内容：{{ post.content }}</p>
-        <p>反馈时间：{{ post.post_time }}</p>
+        <p>反馈时间：{{ formatDateTime(post.post_time) }}</p>
         <p>回复时间：{{ post.response_time }}</p>
         <p>回复评分：{{ post.response_rating }}</p>
         <div class="我不知道">
         </div>
         <el-button type="primary" @click="rewrite(post.post_id)">修改</el-button>
-        <!-- 修改想办法搞个输入框 这个 rewrite函数是直接接着接口的 -->
         <el-button type="danger" @click="re(post.post_id)">撤销</el-button>
     </div>
+  </div>
 </template>
+
+<style scoped>
+.postC {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+}
+
+.yourCheck {
+  margin-right: 50px;
+}
+</style>

@@ -47,10 +47,10 @@ async function rev(user_id,user_type) {
 </script>
 <template>
 <div>
-    <h1>管理员列表</h1>
+    <h1 style="font-size: 3vw; text-align: center;">人员权限管理</h1>
+    <div class="total">
     <div v-for="post in postList" :key="post.user_id" class="post">
-        <h1>学号：{{ post.username }}</h1>
-        <p>姓名：{{ post.name }}</p>
+        <h1>{{ post.name }}——{{ post.username }}</h1>
         <p>性别：{{ post.sex }}</p>
         <p>电话：{{ post.phone_num }}</p>
         <p>邮箱：{{ post.email }}</p>
@@ -59,6 +59,22 @@ async function rev(user_id,user_type) {
             <el-button type="danger" v-if="post.user_type===1" @click="rev(post.user_id,0)">降职</el-button>
             <el-button type="success" v-else @click="rev(post.user_id,1)">升官</el-button>
         </p>
-    </div>
+    </div></div>
 </div>
 </template>
+
+<style scoped>
+
+.post {
+  width: 50vw;
+  background: #ffffff;
+  display:flex;
+  flex-direction: column;
+  margin-left: 20vw;
+}
+
+.post h1 {
+  text-align: center;
+  font-size: 25px;
+}
+</style>

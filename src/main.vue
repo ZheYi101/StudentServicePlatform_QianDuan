@@ -33,11 +33,6 @@ export const imformation = ref() //用户信息
             <AppAside />
           <el-container>
             <el-main>
-              <div class="fixed-icon">
-                <el-icon @click="toggleCollapse" class="getCollapse">
-                <Grid />
-                </el-icon>
-              </div>
                 <el-scrollbar>
                   <RouterView />
                 </el-scrollbar>
@@ -130,5 +125,6 @@ body {
     background-size: cover;
     position: relative;
     width: calc(100% - 200px); 
+    
 }
 </style>
