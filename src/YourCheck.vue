@@ -6,6 +6,7 @@ import { delData2, getData2,putData } from './function/axios';
 const res = ref(true)
 const postList = ref([])
 const respon = ref("null")  //处理内容
+const isChange = ref(false);
 
 // 添加日期格式化函数
 const formatDateTime = (dateString) => {
@@ -59,6 +60,10 @@ async function re(post_id) {
   }
 }
 
+function rewritePre() {
+  isChange.value = !isChange.value;
+}
+
 async function rewrite(post_id) {
   if(respon.value === null) {
     ElMessage.error('请输入处理内容')
@@ -94,7 +99,11 @@ async function rewrite(post_id) {
         <p>回复评分：{{ post.response_rating }}</p>
         <div class="我不知道">
         </div>
-        <el-button type="primary" @click="rewrite(post.post_id)">修改</el-button>
+        <el-button type="primary" @click="rewritePre(post.post_id)">修改</el-button>
+        <el-input v-model="input" style="width: 240px;margin-left: 10px;" placeholder="请输入修改内容"  v-if="isChange"/> 
+         <!-- input改为修改内容的变量 加一个函数点击确定修改向后端发post -->
+        <el-button type="success" style="margin-left: 10px;" v-if="isChange">确定修改</el-button>
+        <br><br>
         <el-button type="danger" @click="re(post.post_id)">撤销</el-button>
     </div>
   </div>

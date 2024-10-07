@@ -7,7 +7,6 @@ import { ElMessage } from 'element-plus';
 
 const postList = ref([]); //反馈列表
 //修改函数相关变量
-const isReview = ref(false) //是否正在修改
 const new_content = ref(null)
 const new_title = ref(null)
 const new_post_type = ref(null)
@@ -28,7 +27,7 @@ const updatePost = async (post) => {
 };
 
 const issReview = (post) => {
-    return post.isEditing;
+    WhetherChange.value = !WhetherChange.value;
 };
 
 // 定义一个映射函数，用于将post_type的数字转换为对应的文字描述
@@ -122,9 +121,7 @@ getFeedback();
 
 
 //修改函数如下:
-async function re() {
-    isReview.value = !isReview.value
-}
+
 async function reversepost(post_id,is_annoymous,is_urgent,post_type,title,content) { 
     //这里需要从帖子那里获取 
     //post_id is_annoymous is_urgent post_type title content
@@ -167,6 +164,9 @@ async function reversepost(post_id,is_annoymous,is_urgent,post_type,title,conten
   }
 }
 
+const WhetherChange = ref(false);
+
+
 const formatResponseTime = (dateTimeStr) => {
     const date = new Date(dateTimeStr);
     const year = date.getFullYear();
@@ -178,6 +178,7 @@ const formatResponseTime = (dateTimeStr) => {
 
     return `${year}年${month}月${day}日 ${hours}:${minutes}`; // 如果需要小时和分钟
 };
+
 
 //删除帖子函数如下
 async function delpost(user_id,post_id) { 
@@ -239,22 +240,14 @@ async function delpost(user_id,post_id) {
             <p style="text-align: end;">反馈时间：{{ formatDateTime(post.post_time) }}</p>
             <br>
             <div class="buttonForm" v-if="post.user_id === imformation.user_id">
-                <el-button type="text" icon="Edit" @click="openEditDialog(post)" v-if="!issReview(post)">修改</el-button>
-                <el-button type="text" icon="Delete" @click="delpost(post.user_id,post.post_id)">删除</el-button>
-                <el-dialog :visible.sync="post.isEditing" title="修改帖子">
-                    <el-form>
-                        <el-form-item label="标题">
-                            <el-input v-model="post.editTitle"></el-input>
-                        </el-form-item>
-                        <el-form-item label="内容">
-                            <el-input type="textarea" v-model="post.editContent"></el-input>
-                        </el-form-item>
-                    </el-form>
-                    <span slot="footer" class="dialog-footer">
-                        <el-button icon="CloseBold" @click="post.isEditing = false">取消</el-button>
-                        <el-button type="primary" icon="Edit" @click="updatePost(post)">提交</el-button>
-                    </span>
-                </el-dialog>
+                <el-button type="text" icon="Edit" @click="issReview"v-if="!WhetherChange" style="font-size: 20px;">修改</el-button>
+                <div v-if="WhetherChange" style="margin-bottom: 10px;">
+                    <el-input type="text" placeholder="请输入您想修改的内容" style="width: 30vw;"/><br><br>
+                    <el-button type="success">确认</el-button>
+                    <el-button type="info">取消</el-button>
+                    <!--按钮 WhetherChange的值判断是否显示 你绑定一下vif的函数和接口-->
+                </div>
+                <el-button type="text" icon="Delete" @click="delpost(post.user_id,post.post_id)" style="font-size: 20px;">删除</el-button>
             </div>
         </div>
     </div>
