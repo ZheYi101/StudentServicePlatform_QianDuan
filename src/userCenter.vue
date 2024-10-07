@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'  //router
 import { imformation } from '../src/main.vue';
 import { ElButton } from 'element-plus';
-import { putData } from './function/axios';
+import { postData, putData } from './function/axios';
 import { ElMessage } from 'element-plus';
 import { Plus } from '@element-plus/icons-vue'
 import type { UploadProps } from 'element-plus'
@@ -113,7 +113,7 @@ async function sub() {
   }
   else {
     if(imformation.value.phone_num=="未设置") {
-      imformation.value.phone_num = 0
+      imformation.value.phone_num = 1
     }
   try {
     new_username.value = Number(new_username.value)
@@ -125,11 +125,18 @@ async function sub() {
       phone_num: change4.value ? imformation.value.phone_num : new_phone_num.value,
       email: imformation.value.email,
       origin_password: password.value,
-      new_password: change5.value ? imformation.value.password : new_password.value,
+      new_password: change5.value ? password.value : new_password.value,
     });
+    await login()
     console.log(res);
   if(res.code === 200) {
     ElMessage.success('修改成功');
+    clear()
+    change1.value = true
+    change2.value = true
+    change3.value = true
+    change4.value = true
+    change5.value = true
   } 
   else {
     ElMessage.error('修改失败:'+res.msg);
@@ -141,6 +148,28 @@ async function sub() {
   }
 }
 
+async function login() {
+    try {
+      const res = await postData('/api/user/login', {
+        username: imformation.value.username,
+        password: change5.value ? password.value : new_password.value,
+      });
+      console.log(res);
+    if(res.code === 200) {
+      imformation.value = res.data //获取用户信息
+      if(imformation.value.sex == 0) {
+       imformation.value.sex = '未设置'
+      }
+      if(imformation.value.phone_num == 0) {
+        imformation.value.phone_num = '未设置'
+      }
+      localStorage.setItem("imf", JSON.stringify(imformation.value));
+      console.log('重新获取成功');
+    }}catch (err) {
+    console.log(err);
+    ElMessage.error('后端爆啦');
+  }
+}
 
 //图片上传相关代码
 const imageUrl = ref('')
@@ -210,7 +239,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
       </div>
       <div class="details">
       <h1>密码：</h1><h1 v-if="change5">******</h1>
-      <input type="text" v-else v-model="new_phone_num" placeholder="请输入新的密码"/>
+      <input type="text" v-else v-model="new_password" placeholder="请输入新的密码"/>
       <el-button type="primary" @click="re5()" v-if="change5"class="changeButton">修改</el-button>
       <el-button type="warning" @click="re5()"v-if="change5===false"class="changeButton">取消</el-button>
       <el-button type="success" @click="sub()" v-if="change5===false"class="changeButton">提交</el-button>

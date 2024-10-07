@@ -6,7 +6,7 @@ import { imformation } from '../src/main.vue';
 
 const postList = ref([]); // 反馈列表
 const res = ref(true);  // 是否正在处理
-const status = ref(1); // 处理状态
+const status = ref(null); // 处理状态
 const response_rating = ref(1)
 // 格式化日期时间的方法
 const formatPostTime = (dateTimeStr) => {
@@ -32,6 +32,10 @@ function clear() {
 
 async function rev(post_id, comment) {
     try {
+        status.value = Number(status.value)
+        if(status.value === null) {
+            ElMessage.error('请选择处理状态')
+        }
         const res = await postData('/api/admin/handlepost', {
             admin_id: imformation.value.user_id,
             post_id: post_id,
@@ -79,7 +83,12 @@ getpost();
             <h1>标题：{{ post.title }}</h1>
             <p>内容：{{ post.content }}</p>
             <p>反馈时间：{{ formatPostTime(post.post_time) }}</p>
-            <p><span>
+            <p>
+                <el-radio-group v-model="status" style="margin-left: 100px;">
+                <el-radio value="1" size="large">正常</el-radio>
+                <el-radio value="2" size="large">垃圾</el-radio>
+              </el-radio-group><br>
+            <span>
             <el-input v-model="post.comments" placeholder="请输入回复"></el-input>
             </span></p><br>          
             <el-button type="primary" @click="rev(post.post_id,post.comments)" v-if="res===true">提交</el-button>

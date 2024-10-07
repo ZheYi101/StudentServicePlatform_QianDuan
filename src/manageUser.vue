@@ -54,9 +54,10 @@ async function rev(user_id,user_type) {
         <p>性别：{{ post.sex }}</p>
         <p>电话：{{ post.phone_num }}</p>
         <p>邮箱：{{ post.email }}</p>
-        <p>管理员：<span v-if="post.user_type===1">是</span><span v-else>否</span></p>
+        <p>管理员：<span v-if="post.user_type===1">是</span><span v-else-if="post.user_type===2">超管</span><span v-else>否</span></p>
         <p>操作：
             <el-button type="danger" v-if="post.user_type===1" @click="rev(post.user_id,0)">降职</el-button>
+            <el-button type="warning" v-else-if="post.user_type===2">无法操作</el-button>
             <el-button type="success" v-else @click="rev(post.user_id,1)">升官</el-button>
         </p>
     </div>
